@@ -109,3 +109,26 @@ export function Navbar() {
                   href={link.href}
                   className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2"
                   onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    Sign In
+                  </Link>
+                </Button>
+                <Button className="w-full" asChild>
+                  <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                    Get Started
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
+  );
+}
