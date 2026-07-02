@@ -13,38 +13,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { saveTransactions, ParsedTransaction } from "@/server/actions/transactions";
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isParsing, setIsParsing] = useState(false);
-  const [parsedRows, setParsedRows] = useState<number | null>(null);
+  const [saveResult, setSaveResult] = useState<{ success?: boolean; count?: number; error?: string } | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-      setParsedRows(null); // Reset on new file selection
+      setSaveResult(null); 
     }
   };
 
   const handleUpload = () => {
     if (!file) return;
     setIsParsing(true);
+    setSaveResult(null);
 
     Papa.parse(file, {
-      header: true, // Assumes the first row of the CSV contains column names
+      header: true,
       skipEmptyLines: true,
-      complete: (results) => {
-        setIsParsing(false);
-        setParsedRows(results.data.length);
+      complete: async (results) => {
+        const parsedData = results.data as ParsedTransaction[];
         
-        // Log to console to verify our data structure before we build the backend
-        console.log("Successfully parsed CSV:", results.data);
-        console.log("CSV Headers identified:", results.meta.fields);
+        // Send the parsed JSON to our Next.js Server Action
+        const response = await saveTransactions(parsedData);
+        
+        setSaveResult(response);
+        setIsParsing(false);
       },
       error: (error) => {
         setIsParsing(false);
         console.error("Error parsing CSV:", error);
-        alert("Failed to parse CSV file. Please check the format.");
+        setSaveResult({ error: "Failed to read the CSV file. Please check the format." });
       },
     });
   };
@@ -81,12 +84,18 @@ export default function UploadPage() {
             disabled={!file || isParsing}
             className="w-full"
           >
-            {isParsing ? "Parsing Document..." : "Process Upload"}
+            {isParsing ? "Processing & Saving..." : "Process Upload"}
           </Button>
           
-          {parsedRows !== null && (
-            <div className="mt-4 p-4 rounded-md bg-muted text-sm text-center text-muted-foreground">
-              Successfully extracted <span className="font-bold text-foreground">{parsedRows}</span> transactions from the file. Check your browser console to view the raw JSON data!
+          {saveResult?.success && (
+            <div className="mt-4 p-4 rounded-md bg-green-500/15 text-sm text-center text-green-600 font-medium">
+              Successfully saved {saveResult.count} transactions to your account!
+            </div>
+          )}
+
+          {saveResult?.error && (
+            <div className="mt-4 p-4 rounded-md bg-destructive/15 text-sm text-center text-destructive font-medium">
+              {saveResult.error}
             </div>
           )}
         </CardContent>
