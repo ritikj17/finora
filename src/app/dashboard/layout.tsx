@@ -43,6 +43,12 @@ export default function DashboardLayout({
               >
                 Upload CSV
               </Link>
+              <Link 
+                href="/dashboard/settings" 
+                className={`text-sm font-medium transition-colors hover:text-primary ${pathname === '/dashboard/settings' ? 'text-primary' : 'text-muted-foreground'}`}
+              >
+                Settings
+              </Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">
