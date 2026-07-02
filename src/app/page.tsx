@@ -1,19 +1,24 @@
-// src/app/page.tsx
-import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/layout/navbar";
+import { HeroSection } from "@/components/landing/hero-section";
 
-export default function HomePage() {
+export const metadata = {
+  title: "FinPilot AI | AI-Powered Financial Navigation",
+  description: "Automate your accounting, forecast your runway, and get actionable financial insights in real-time with FinPilot AI.",
+};
+
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-background">
-      <h1 className="text-4xl font-bold tracking-tight text-foreground">
-        Welcome to Finora
-      </h1>
-      <p className="mt-4 text-lg text-muted-foreground max-w-md text-center">
-        Your AI-powered personal finance architect. Upload your statements and let AI categorize your life.
-      </p>
+    <main className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary">
+      <Navbar />
       
-      <div className="mt-8 flex gap-4">
-        <Button size="lg">Get Started</Button>
-        <Button variant="outline" size="lg">View Demo</Button>
+      {/* We wrap page content in a div to manage stacking contexts under the fixed navbar */}
+      <div className="flex-1 w-full">
+        <HeroSection />
+        
+        {/* Future sections (Features, Pricing, etc.) will go here in subsequent sprints */}
+        {/* <FeaturesSection /> */}
+        {/* <PricingSection /> */}
+        {/* <Footer /> */}
       </div>
     </main>
   );
