@@ -1,7 +1,7 @@
-// src/middleware.ts
+// src/proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   try {
     // Construct the absolute URL to our API route
     const baseUrl = request.nextUrl.origin;
@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-// Specify exactly which routes this middleware should protect
+// Specify exactly which routes this proxy should protect
 export const config = {
   matcher: ["/dashboard/:path*"],
 };
