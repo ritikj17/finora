@@ -108,4 +108,4 @@ export function Navbar() {
                   key={link.label}
                   href={link.href}
                   className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2"
-                  onClick={() => setIsMobileMenuOpen(
+                  onClick={() => setIsMobileMenuOpen(false)}
