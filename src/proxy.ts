@@ -1,5 +1,5 @@
-// src/proxy.ts
 import { NextRequest, NextResponse } from "next/server";
+import type { Session } from "better-auth/types";
 
 export async function proxy(request: NextRequest) {
   try {
@@ -18,7 +18,8 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    const session = await response.json();
+    // Strongly type the response to match Better Auth's expected session object
+    const session = (await response.json()) as Session | null;
 
     // If Better Auth returns no session data, the user is not logged in
     if (!session) {
@@ -28,7 +29,8 @@ export async function proxy(request: NextRequest) {
     // User is authenticated, allow them into the dashboard
     return NextResponse.next();
   } catch (error) {
-    // If the internal fetch fails for any reason, default to security (redirect)
+    // Log the error for production observability, then default to security (redirect)
+    console.error("[Auth Proxy Error]: Failed to verify session.", error);
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 }
