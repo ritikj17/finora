@@ -38,10 +38,21 @@ export function SpendingChart({ data }: SpendingChartProps) {
             ))}
           </Pie>
           <Tooltip
-            formatter={(value: number) =>
-              new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value)
-            }
-            contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+            // Let TypeScript infer the generic value type, then safely cast/check it at runtime
+            formatter={(value) => {
+              const numericValue = typeof value === 'number' ? value : Number(value);
+              if (isNaN(numericValue)) return "$0.00";
+              
+              return new Intl.NumberFormat("en-US", { 
+                style: "currency", 
+                currency: "USD" 
+              }).format(numericValue);
+            }}
+            contentStyle={{ 
+              borderRadius: '8px', 
+              border: 'none', 
+              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' 
+            }}
           />
           <Legend 
             verticalAlign="bottom" 
