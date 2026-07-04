@@ -1,29 +1,25 @@
 import { PrismaClient } from "@prisma/client";
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import ws from "ws";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-// Required for the Neon serverless driver to work within Node.js (Next.js server)
-neonConfig.webSocketConstructor = ws;
+// 1. Explicitly grab the connection string
+const connectionString = process.env.DATABASE_URL;
 
+if (!connectionString) {
+  throw new Error("DATABASE_URL is missing in environment variables.");
+}
+
+// 2. Next.js Hot-Reloading Singleton Pattern
 const prismaClientSingleton = () => {
-  const connectionString = process.env.DATABASE_URL;
-  
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not defined in your environment variables.");
-  }
-
-  // Initialize the serverless connection pool using Neon
+  // 3. EXPLICITLY pass the connection string to the pg Pool
   const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
   
-  // Wrap the pool in Prisma's Neon adapter
-  const adapter = new PrismaNeon(pool);
-  
-  // Prisma v7 explicitly requires this adapter to be provided
   return new PrismaClient({ adapter });
 };
 
 declare global {
+  // eslint-disable-next-line no-var
   var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 

@@ -2,8 +2,11 @@ import * as React from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { TransactionRepository } from "@/server/repositories/transaction.repo";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
+import { TransactionRepository } from "@/server/repositories/transaction.repo";
+
+// 👉 Disables Next.js aggressive caching so we always see fresh DB data
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Transactions | FinPilot AI",

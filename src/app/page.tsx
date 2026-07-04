@@ -2,7 +2,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { HeroSection } from "@/components/landing/hero-section";
 
 export const metadata = {
-  title: "FinPilot AI | AI-Powered Financial Navigation",
+  title: "Finora | AI-Powered Financial Navigation",
   description: "Automate your accounting, forecast your runway, and get actionable financial insights in real-time with FinPilot AI.",
 };
 

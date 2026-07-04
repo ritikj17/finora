@@ -17,6 +17,18 @@ export const TransactionRepository = {
   },
 
   /**
+   * Fetch specific transactions by their IDs, enforcing user ownership.
+   */
+  async getByIds(userId: string, transactionIds: string[]): Promise<Transaction[]> {
+    return prisma.transaction.findMany({
+      where: {
+        userId,
+        id: { in: transactionIds },
+      },
+    });
+  },
+
+  /**
    * Fetch a summarized grouping of income vs expenses for a specific date range.
    */
   async getSummary(userId: string, startDate: Date, endDate: Date) {
@@ -69,6 +81,29 @@ export const TransactionRepository = {
       data,
       skipDuplicates: true,
     });
+  },
+
+  /**
+   * Batch update categories for multiple transactions atomically.
+   */
+  async batchUpdateCategories(
+    userId: string,
+    updates: { transactionId: string; category: string }[]
+  ): Promise<void> {
+    const updatePromises = updates.map((update) =>
+      prisma.transaction.updateMany({
+        where: {
+          id: update.transactionId,
+          userId: userId, // Strict tenant isolation enforced on every update
+        },
+        data: {
+          category: update.category,
+        },
+      })
+    );
+
+    // Execute atomically
+    await prisma.$transaction(updatePromises);
   },
   
   /**

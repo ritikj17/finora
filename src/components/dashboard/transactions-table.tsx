@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { format } from "date-fns";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -23,13 +23,38 @@ interface Transaction {
 }
 
 export function TransactionsTable({ transactions }: { transactions: Transaction[] }) {
+  const router = useRouter();
   const [isCategorizing, setIsCategorizing] = React.useState(false);
 
-  // Placeholder for our Sprint 9 action
+  const uncategorizedIds = React.useMemo(() => {
+    return transactions.filter((t) => !t.category).map((t) => t.id);
+  }, [transactions]);
+
   const handleAutoCategorize = async () => {
+    if (uncategorizedIds.length === 0) return;
+
     setIsCategorizing(true);
-    // Future API call to /api/ai/categorize will go here
-    setTimeout(() => setIsCategorizing(false), 1500);
+    
+    try {
+      const response = await fetch("/api/ai/categorize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transactionIds: uncategorizedIds }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Categorization API returned an error.");
+      }
+
+      // Success - force Next.js Server Components to re-fetch database state
+      router.refresh();
+      
+    } catch (error) {
+      console.error("[Categorization Failed]:", error);
+      alert("Failed to auto-categorize transactions. Please try again.");
+    } finally {
+      setIsCategorizing(false);
+    }
   };
 
   if (transactions.length === 0) {
@@ -54,11 +79,15 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
           variant="outline" 
           size="sm" 
           onClick={handleAutoCategorize}
-          disabled={isCategorizing}
+          disabled={isCategorizing || uncategorizedIds.length === 0}
           className="gap-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          {isCategorizing ? "Categorizing..." : "Auto-Categorize Unassigned"}
+          {isCategorizing 
+            ? "Categorizing..." 
+            : uncategorizedIds.length > 0 
+              ? `Auto-Categorize Unassigned (${uncategorizedIds.length})` 
+              : "All Categorized"}
         </Button>
       </div>
 
@@ -73,7 +102,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions.map((transaction, index) => (
+            {transactions.map((transaction) => (
               <TableRow 
                 key={transaction.id}
                 className="hover:bg-muted/30 transition-colors"
