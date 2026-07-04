@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
+import { CsvUploader } from "@/components/dashboard/csv-uploader"; // 👉 NEW IMPORT
 
-// 👉 Disables Next.js aggressive caching so we always see fresh DB data
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -22,7 +22,6 @@ export default async function TransactionsPage() {
     redirect("/sign-in");
   }
 
-  // Fetch up to 500 recent transactions for the full view
   const transactions = await TransactionRepository.getByUserId(session.user.id, 500);
 
   return (
@@ -33,6 +32,9 @@ export default async function TransactionsPage() {
           Manage your cash flow and review AI categorizations.
         </p>
       </div>
+
+      {/* 👉 NEW UPLOADER MOUNTED HERE */}
+      <CsvUploader />
 
       <TransactionsTable transactions={transactions} />
     </div>
