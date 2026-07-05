@@ -3,9 +3,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
+import { BudgetRepository } from "@/server/repositories/budget.repo"; // 👉 NEW
 import { SummaryCards } from "@/components/dashboard/summary-cards";
 import { CashFlowChart } from "@/components/dashboard/cash-flow-chart";
 import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
+import { BudgetProgress } from "@/components/dashboard/budget-progress"; // 👉 NEW
 import { subDays } from "date-fns";
 
 export const dynamic = "force-dynamic";
@@ -29,14 +31,11 @@ export default async function DashboardPage() {
   const startDate = subDays(endDate, 30);
 
   // Fetch Aggregated Analytics concurrently for performance
-  const [summary, cashFlowData, categoryData] = await Promise.all([
+  const [summary, cashFlowData, categoryData, budgetsData] = await Promise.all([
     TransactionRepository.getSummary(session.user.id, startDate, endDate),
     TransactionRepository.getCashFlow(session.user.id, startDate, endDate),
-    TransactionRepository.getCategoryBreakdown(
-      session.user.id,
-      startDate,
-      endDate,
-    ),
+    TransactionRepository.getCategoryBreakdown(session.user.id, startDate, endDate),
+    BudgetRepository.getBudgetsWithProgress(session.user.id), // 👉 NEW
   ]);
 
   return (
@@ -63,6 +62,18 @@ export default async function DashboardPage() {
         </div>
         <div className="lg:col-span-3">
           <CategoryPieChart data={categoryData} />
+        </div>
+      </div>
+
+      {/* 👉 NEW: Bottom Row for Budgets & Future Modules */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1">
+          <BudgetProgress budgets={budgetsData} />
+        </div>
+        <div className="lg:col-span-2">
+           <div className="rounded-xl border border-dashed bg-card/50 p-6 shadow-sm h-full flex items-center justify-center text-muted-foreground text-sm font-medium">
+             Recent Transactions Feed (Coming Soon)
+           </div>
         </div>
       </div>
     </div>

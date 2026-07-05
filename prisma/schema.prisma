@@ -19,7 +19,8 @@ model User {
   
   sessions      Session[]
   accounts      Account[]
-  transactions  Transaction[] // Added relation to transactions
+  transactions  Transaction[]
+  budgets       Budget[]      // NEW: Added relation to budgets
 }
 
 model Session {
@@ -54,17 +55,16 @@ model Account {
 }
 
 model Verification {
-  id         String    @id @default(cuid())
+  id         String   @id @default(cuid())
   identifier String
   value      String
   expiresAt  DateTime
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@unique([identifier, value])
 }
 
-// NEW: The core financial data model
 model Transaction {
   id          String   @id @default(cuid())
   date        DateTime
@@ -79,5 +79,22 @@ model Transaction {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@index([userId]) // Improves database read speeds when querying by user
+  @@index([userId])
+}
+
+// 👉 NEW: The Budget model
+model Budget {
+  id          String   @id @default(cuid())
+  category    String
+  amount      Float    // The spending limit
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Ensures a user can only have one budget limit per category
+  @@unique([userId, category])
+  @@index([userId])
 }
