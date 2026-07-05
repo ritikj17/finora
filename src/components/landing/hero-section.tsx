@@ -36,7 +36,7 @@ export function HeroSection() {
           className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-8"
         >
           <span className="flex size-2 rounded-full bg-primary mr-2 animate-pulse" />
-          FinPilot AI 2.0 is now live
+          Finora 2.0 is now live
         </motion.div>
 
         <motion.h1
@@ -59,7 +59,9 @@ export function HeroSection() {
           variants={fadeUpVariants}
           className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl"
         >
-          Automate your accounting, forecast your runway, and get actionable financial insights in real-time. Built for modern startups scaling fast.
+          Automate your accounting, forecast your runway, and get actionable
+          financial insights in real-time. Built for modern startups scaling
+          fast.
         </motion.p>
 
         <motion.div
@@ -69,10 +71,19 @@ export function HeroSection() {
           variants={fadeUpVariants}
           className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
-          <Button size="lg" className="w-full sm:w-auto text-base h-12 px-8" asChild>
+          <Button
+            size="lg"
+            className="w-full sm:w-auto text-base h-12 px-8"
+            asChild
+          >
             <Link href="/signup">Start for Free</Link>
           </Button>
-          <Button size="lg" variant="outline" className="w-full sm:w-auto text-base h-12 px-8" asChild>
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto text-base h-12 px-8"
+            asChild
+          >
             <Link href="#demo">Watch the Demo</Link>
           </Button>
         </motion.div>
@@ -96,7 +107,11 @@ export function HeroSection() {
               strokeWidth={1}
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
+              />
             </svg>
           </div>
         </motion.div>

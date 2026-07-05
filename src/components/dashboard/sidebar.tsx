@@ -54,7 +54,7 @@ export function Sidebar() {
           F
         </div>
         <span className="font-semibold text-lg tracking-tight text-foreground">
-          FinPilot <span className="text-muted-foreground">AI</span>
+          Finora
         </span>
       </div>
 

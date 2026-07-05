@@ -9,7 +9,7 @@ import { CsvUploader } from "@/components/dashboard/csv-uploader"; // 👉 NEW I
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Transactions | FinPilot AI",
+  title: "Transactions | Finora",
   description: "View and manage your financial transactions.",
 };
 
@@ -22,7 +22,10 @@ export default async function TransactionsPage() {
     redirect("/sign-in");
   }
 
-  const transactions = await TransactionRepository.getByUserId(session.user.id, 500);
+  const transactions = await TransactionRepository.getByUserId(
+    session.user.id,
+    500,
+  );
 
   return (
     <div className="flex flex-col gap-6 max-w-7xl mx-auto h-full">

@@ -42,7 +42,7 @@ export function Navbar() {
             F
           </div>
           <span className="font-semibold text-xl tracking-tight text-foreground">
-            FinPilot <span className="text-muted-foreground">AI</span>
+            Finora
           </span>
         </Link>
 
