@@ -30,7 +30,7 @@ export default function LandingPage() {
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-primary transition-colors">Features</a>
-            <a href="#how-it-works" onClick={(e) => scrollToSection(e, 'how-it-works')} className="hover:text-primary transition-colors">How it Works</a>
+            <Link href="/how-it-works" className="hover:text-primary transition-colors">How it Works</Link>
             <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="hover:text-primary transition-colors">Pricing</a>
           </nav>
           <div className="flex items-center gap-4">
