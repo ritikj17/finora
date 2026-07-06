@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 const navItems = [
   {
@@ -49,11 +50,9 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r bg-muted/30 min-h-screen pt-4 pb-8 px-3">
-      <Link href="/" className="flex items-center gap-2 px-3 mb-8 outline-none hover:opacity-80 transition-opacity">
-        <div className="size-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl tracking-tighter">
-          F
-        </div>
-        <span className="font-semibold text-lg tracking-tight text-foreground">
+      <Link href="/" className="flex items-center gap-3 px-3 mb-8 outline-none hover:opacity-80 transition-opacity">
+        <Logo className="size-8" />
+        <span className="font-semibold text-xl tracking-tight text-foreground">
           Finora
         </span>
       </Link>

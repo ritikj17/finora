@@ -16,12 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// 1. Strict Validation Schema
+// 1. Strict Validation Schema (Using standard z.number to match valueAsNumber)
 const budgetSchema = z.object({
   category: z.string().min(1, "Please select a category"),
-  amount: z.coerce.number().positive("Amount must be greater than 0"),
+  amount: z.number().positive("Amount must be greater than 0"),
 });
 
+// Let Zod generate the exact TypeScript type
 type BudgetFormValues = z.infer<typeof budgetSchema>;
 
 // Must match the AI Prompt categories perfectly
@@ -40,7 +41,7 @@ export function BudgetModal({ isOpen, onClose }: BudgetModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  // 2. Initialize React Hook Form
+  // 2. Initialize React Hook Form with the inferred type
   const { register, handleSubmit, formState: { errors }, reset } = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetSchema),
     defaultValues: {
@@ -113,7 +114,7 @@ export function BudgetModal({ isOpen, onClose }: BudgetModalProps) {
               type="number"
               step="0.01"
               placeholder="0.00"
-              {...register("amount")}
+              {...register("amount", { valueAsNumber: true })}
             />
             {errors.amount && (
               <p className="text-[0.8rem] font-medium text-destructive">{errors.amount.message}</p>

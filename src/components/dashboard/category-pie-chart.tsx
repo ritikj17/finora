@@ -48,7 +48,7 @@ export function CategoryPieChart({ data }: { data: CategoryData[] }) {
               ))}
             </Pie>
             <Tooltip 
-              formatter={(value: number) => `$${value.toFixed(2)}`}
+              formatter={(value: any) => `$${Number(value || 0).toFixed(2)}`}
               contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))' }}
             />
             <Legend 

@@ -54,7 +54,8 @@ export function CategoryBarChart({ data }: { data: CategoryData[] }) {
             />
             <Tooltip 
               cursor={{ fill: 'hsl(var(--muted))' }}
-              formatter={(value: number) => [`$${value.toFixed(2)}`, "Spent"]}
+              // 👉 FIXED: Changed to (value: any) and cast with Number() to satisfy Recharts strict typing
+              formatter={(value: any) => [`$${Number(value || 0).toFixed(2)}`, "Spent"]}
               contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))' }}
             />
             <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={24}>

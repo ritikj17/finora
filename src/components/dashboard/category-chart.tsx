@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 interface CategoryChartProps {
   data: {
@@ -48,7 +55,10 @@ export function CategoryChart({ data }: CategoryChartProps) {
             stroke="none"
           >
             {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
             ))}
           </Pie>
           <Tooltip
@@ -56,12 +66,12 @@ export function CategoryChart({ data }: CategoryChartProps) {
               if (active && payload && payload.length) {
                 return (
                   <div className="rounded-lg border bg-background p-2 shadow-md flex items-center gap-2">
-                    <div 
-                      className="size-3 rounded-full" 
+                    <div
+                      className="size-3 rounded-full"
                       style={{ backgroundColor: payload[0].payload.fill }}
                     />
                     <span className="text-sm font-medium">
-                      {payload[0].name}: ${payload[0].value.toFixed(2)}
+                      {payload[0].name}: ${Number(payload[0].value || 0).toFixed(2)}
                     </span>
                   </div>
                 );
@@ -69,11 +79,15 @@ export function CategoryChart({ data }: CategoryChartProps) {
               return null;
             }}
           />
-          <Legend 
-            verticalAlign="bottom" 
+          <Legend
+            verticalAlign="bottom"
             height={36}
             iconType="circle"
-            formatter={(value) => <span className="text-xs font-medium text-foreground">{value}</span>}
+            formatter={(value) => (
+              <span className="text-xs font-medium text-foreground">
+                {value}
+              </span>
+            )}
           />
         </PieChart>
       </ResponsiveContainer>

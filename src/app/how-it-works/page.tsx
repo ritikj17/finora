@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 
 export const metadata = {
   title: "Architecture & Flow | Finora",
@@ -61,9 +62,7 @@ export default function HowItWorksPage() {
       <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="size-8 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-xl tracking-tighter shadow-lg shadow-primary/20">
-              F
-            </div>
+            <Logo />
             <span className="font-semibold text-lg tracking-tight text-foreground">
               Finora
             </span>
@@ -132,7 +131,7 @@ export default function HowItWorksPage() {
       <footer className="border-t py-12 bg-muted/30">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-muted-foreground text-sm">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
-             <div className="size-6 rounded-md bg-muted-foreground/20 flex items-center justify-center text-foreground font-bold text-xs">F</div>
+             <Logo className="size-6 shadow-none rounded-lg" />
              <span className="font-semibold text-foreground">Finora Portfolio Showcase</span>
           </div>
           <p>Engineered for full-stack performance and scalability.</p>

@@ -38,7 +38,6 @@ export function OverviewChart({ data }: OverviewChartProps) {
             minTickGap={30}
           />
           <YAxis 
-            tickFormatter={(val) => `$${val}`}
             stroke="hsl(var(--muted-foreground))"
             fontSize={12}
             tickLine={false}
@@ -51,7 +50,7 @@ export function OverviewChart({ data }: OverviewChartProps) {
                 return (
                   <div className="rounded-lg border bg-background p-3 shadow-md">
                     <p className="text-sm font-medium text-foreground mb-2">
-                      {format(new Date(label), "MMM dd, yyyy")}
+                      {label ? format(new Date(label as string | number), "MMM dd, yyyy") : ""}
                     </p>
                     <div className="flex flex-col gap-1">
                       <span className="text-xs font-semibold text-primary">

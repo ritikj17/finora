@@ -10,6 +10,7 @@ import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
 import { BudgetProgress } from "@/components/dashboard/budget-progress";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { subDays } from "date-fns";
+import { Logo } from "@/components/ui/logo";
 
 export const dynamic = "force-dynamic";
 

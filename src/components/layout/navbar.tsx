@@ -62,7 +62,7 @@ export function Navbar() {
         {/* Desktop Auth/CTAs */}
         <div className="hidden md:flex items-center gap-4">
           <Button variant="ghost" asChild>
-            <Link href="/login">Sign In</Link>
+            <Link href="/signin">Sign In</Link>
           </Button>
           <Button asChild>
             <Link href="/signup">Get Started</Link>
