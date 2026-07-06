@@ -23,8 +23,8 @@ export function HeroSection() {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
       {/* Abstract Background Elements */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-        <div className="absolute top-1/4 left-1/4 w-[40rem] h-[40rem] bg-primary/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-blue-500/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-screen opacity-50" />
+        <div className="absolute top-1/4 left-1/4 w-160 h-160 bg-primary/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-120 h-120 bg-blue-500/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-screen opacity-50" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-8 text-center max-w-4xl flex flex-col items-center">
@@ -47,7 +47,7 @@ export function HeroSection() {
           className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6"
         >
           Navigate your finances with <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-500">
             AI precision.
           </span>
         </motion.h1>
@@ -96,8 +96,8 @@ export function HeroSection() {
           variants={fadeUpVariants}
           className="mt-16 w-full rounded-xl border border-border/50 bg-background/50 p-2 shadow-2xl backdrop-blur-sm"
         >
-          <div className="aspect-[16/9] rounded-lg bg-muted flex items-center justify-center border border-border overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-background to-muted/20" />
+          <div className="aspect-video rounded-lg bg-muted flex items-center justify-center border border-border overflow-hidden relative">
+            <div className="absolute inset-0 bg-linear-to-br from-background to-muted/20" />
             {/* You will replace this SVG with your actual dashboard screenshot later */}
             <svg
               className="size-24 text-muted-foreground/30 relative z-10"

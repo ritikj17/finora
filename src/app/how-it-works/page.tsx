@@ -3,16 +3,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "How it Works | Finora",
-  description: "See how Finora's AI categorizes your transactions and builds your budget automatically.",
+  title: "Architecture & Flow | Finora",
+  description: "See how Finora's AI categorizes transactions and builds budgets automatically.",
 };
 
 export default function HowItWorksPage() {
   const steps = [
     {
       id: "01",
-      title: "Import Your Data",
-      description: "Start by uploading your bank statements via our secure CSV importer. We process your data locally before it hits the AI, ensuring your financial footprint remains private and entirely under your control.",
+      title: "Data Ingestion Pipeline",
+      description: "Users upload bulk CSV bank statements. Client-side workers parse and sanitize rows before transmitting them securely to our server actions, ensuring zero malformed payloads enter the database.",
       visual: (
         <div className="relative size-full bg-card rounded-2xl border flex items-center justify-center overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent" />
@@ -23,18 +23,18 @@ export default function HowItWorksPage() {
     {
       id: "02",
       title: "Autonomous AI Categorization",
-      description: "Our Gemini-powered engine instantly analyzes thousands of rows. It cleans up messy merchant names (turning 'UBER *EATS 098' into 'Uber Eats') and intelligently tags every transaction into exactly the right budget category.",
+      description: "Our Gemini-powered backend engine processes unorganized transaction records. It cleans up ambiguous merchant strings and assigns accurate spending categories structured as strictly typed JSON.",
       visual: (
         <div className="relative size-full bg-card rounded-2xl border flex items-center justify-center overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary relative z-10"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary relative z-10"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/></svg>
         </div>
       ),
     },
     {
       id: "03",
-      title: "Set Dynamic Budgets",
-      description: "Once your data is categorized, head to the dashboard to set monthly limits. Our visual progress bars automatically calculate your real-time spending against your goals, glowing green when you're good and red when you're close to the edge.",
+      title: "Real-Time Budget Aggregations",
+      description: "Relational database queries continuously calculate total categorized spending against user-defined limits. Visual progress components update dynamically with custom CSS thresholds.",
       visual: (
         <div className="relative size-full bg-card rounded-2xl border flex items-center justify-center overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent" />
@@ -44,8 +44,8 @@ export default function HowItWorksPage() {
     },
     {
       id: "04",
-      title: "Chat with your CFO",
-      description: "Have a question? Don't dig through spreadsheets. Open the AI Advisor and ask, 'How much did I spend on dining out this month?' The AI instantly queries your exact database context to give you personalized, accurate answers.",
+      title: "Retrieval-Augmented Chat (RAG)",
+      description: "When interacting with the AI Advisor, the application injects the user's latest 30-day financial summaries directly into the LLM context window to provide verifiable, mathematical guidance.",
       visual: (
         <div className="relative size-full bg-card rounded-2xl border flex items-center justify-center overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent" />
@@ -70,15 +70,12 @@ export default function HowItWorksPage() {
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <Link href="/#features" className="hover:text-primary transition-colors">Features</Link>
-            <Link href="/how-it-works" className="text-primary transition-colors">How it Works</Link>
-            <Link href="/#pricing" className="hover:text-primary transition-colors">Pricing</Link>
+            <Link href="/how-it-works" className="text-primary transition-colors">Architecture</Link>
+            <Link href="/#tech-stack" className="hover:text-primary transition-colors">Tech Stack</Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden sm:inline-flex" asChild>
-              <Link href="/sign-in">Sign In</Link>
-            </Button>
             <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25" asChild>
-              <Link href="/sign-in">Get Started</Link>
+              <Link href="/sign-in">Launch App Demo</Link>
             </Button>
           </div>
         </div>
@@ -89,10 +86,10 @@ export default function HowItWorksPage() {
         <div className="w-full max-w-4xl text-center px-4 mb-24 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 relative z-10">
-            How Finora Works
+            System Architecture
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground relative z-10">
-            From raw data to actionable financial intelligence in four simple steps.
+            How Finora processes raw transaction matrices into structured financial intelligence.
           </p>
         </div>
 
@@ -102,8 +99,6 @@ export default function HowItWorksPage() {
             const isEven = index % 2 === 0;
             return (
               <div key={step.id} className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${!isEven ? 'md:flex-row-reverse' : ''}`}>
-                
-                {/* Text Content */}
                 <div className="flex-1 space-y-6">
                   <span className="text-6xl md:text-8xl font-black text-muted/30 -ml-2 select-none tracking-tighter">
                     {step.id}
@@ -115,10 +110,7 @@ export default function HowItWorksPage() {
                     {step.description}
                   </p>
                 </div>
-
-                {/* Visual Representation */}
                 <div className="flex-1 w-full aspect-square md:aspect-[4/3] max-w-lg relative group">
-                   {/* Hover Glow Effect */}
                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-purple-600/30 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-500" />
                    {step.visual}
                 </div>
@@ -129,9 +121,9 @@ export default function HowItWorksPage() {
         
         {/* Call to Action */}
         <div className="w-full max-w-4xl text-center px-4 mt-32">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to take control?</h2>
+          <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to test the application?</h2>
           <Button size="lg" className="h-14 px-10 text-base" asChild>
-             <Link href="/sign-in">Create your free account</Link>
+             <Link href="/sign-in">Launch Full-Stack Demo</Link>
           </Button>
         </div>
       </main>
@@ -141,9 +133,9 @@ export default function HowItWorksPage() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-muted-foreground text-sm">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
              <div className="size-6 rounded-md bg-muted-foreground/20 flex items-center justify-center text-foreground font-bold text-xs">F</div>
-             <span className="font-semibold text-foreground">Finora</span>
+             <span className="font-semibold text-foreground">Finora Portfolio Showcase</span>
           </div>
-          <p>© {new Date().getFullYear()} Finora AI. All rights reserved.</p>
+          <p>Engineered for full-stack performance and scalability.</p>
         </div>
       </footer>
     </div>
