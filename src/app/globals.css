@@ -110,10 +110,6 @@
     @apply border-border;
   }
 
-  html, body {
-    cursor: url('/cursor.svg') 4 4, auto;
-  }
-
   html {
     scroll-behavior: smooth;
   }
@@ -121,10 +117,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  a, button, [role="button"], .cursor-pointer {
-    cursor: pointer !important;
   }
 
   /* Premium focus ring — visible but not intrusive */

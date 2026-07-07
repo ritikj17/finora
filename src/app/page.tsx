@@ -161,8 +161,8 @@ function Navbar() {
 
 function HeroSection() {
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, -60]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const y1 = useTransform(scrollY, [0, 800], [0, -100]);
+  const opacity = useTransform(scrollY, [0, 800], [1, 0.3]);
 
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 overflow-hidden">
@@ -187,7 +187,7 @@ function HeroSection() {
         <motion.div variants={fadeUp}>
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-4 py-1.5 text-sm font-medium text-primary mb-8 backdrop-blur-sm">
             <span className="flex size-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
-            Full-Stack Engineering Showcase
+            AI Powered Finance Platform
           </div>
         </motion.div>
 
@@ -685,9 +685,8 @@ function Footer() {
         <div className="flex flex-col md:flex-row items-start justify-between gap-8 mb-10">
           {/* Brand */}
           <div className="max-w-xs">
-            <div className="flex items-center gap-2.5 mb-3">
+            <div className="mb-3">
               <Logo className="size-7" />
-              <span className="font-semibold tracking-tight">Finora</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               A production-quality full-stack fintech SaaS. Built with Next.js, Prisma, and Google Gemini AI.
@@ -700,7 +699,7 @@ function Footer() {
               <div className="font-semibold mb-3">Product</div>
               <ul className="space-y-2 text-muted-foreground">
                 <li><a href="#features" className="hover:text-foreground transition-colors">Features</a></li>
-                <li><Link href="/how-it-works" className="hover:text-foreground transition-colors">Architecture</Link></li>
+                <li><Link href="#how-it-works" className="hover:text-foreground transition-colors">How it works</Link></li>
                 <li><a href="#tech-stack" className="hover:text-foreground transition-colors">Tech Stack</a></li>
               </ul>
             </div>
@@ -742,9 +741,7 @@ function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-border/50 text-sm text-muted-foreground">
           <div className="flex items-center gap-1.5">
-            <Logo className="size-4 rounded-md shadow-none" />
-            <span>Finora</span>
-            <span>·</span>
+            <Logo className="size-4 rounded-md shadow-none" showText={false} />
             <span>© 2026 Finora. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-1.5 font-medium">Made with <span className="text-red-500 text-lg leading-none">❤️</span> in India.</div>
