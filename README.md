@@ -182,6 +182,4 @@ This app is optimized for [Vercel](https://vercel.com). The `vercel.json` automa
 
 ---
 
-## License
-
-MIT © Finora. See [LICENSE](LICENSE).
+## Made with ❤️ in India.

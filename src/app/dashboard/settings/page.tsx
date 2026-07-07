@@ -163,6 +163,7 @@ export default function SettingsPage() {
             variant="destructive" 
             onClick={handleDeleteAccount}
             disabled={isSigningOut || isDeleting}
+            className="bg-red-600 hover:bg-red-700 text-white font-medium"
           >
             {isDeleting ? "Deleting..." : "Delete Account"}
           </Button>
