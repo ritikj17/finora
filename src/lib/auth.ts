@@ -15,7 +15,10 @@ export const auth = betterAuth({
     "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ...(process.env.VERCEL_BRANCH_URL ? [`https://${process.env.VERCEL_BRANCH_URL}`] : []),
+    ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : [])
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
