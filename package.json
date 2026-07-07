@@ -2,11 +2,17 @@
   "name": "finora",
   "version": "0.1.0",
   "private": true,
+  "description": "AI-powered personal finance SaaS built with Next.js, Prisma, and Google Gemini",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "db:seed": "ts-node --esm prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -23,6 +29,7 @@
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.22.0",
     "next": "16.2.9",
+    "node-fetch": "^3.3.2",
     "papaparse": "^5.5.4",
     "pg": "^8.22.0",
     "radix-ui": "^1.6.0",

@@ -4,12 +4,14 @@ import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 
 const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How it Works" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#about", label: "About Us" },
+  { href: "/#features", label: "Features" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#tech-stack", label: "Tech stack" },
+  { href: "/#ai", label: "AI Engine" },
+  { href: "/#testimonials", label: "Testimonials" },
 ];
 
 export function Navbar() {
@@ -18,7 +20,7 @@ export function Navbar() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -37,23 +39,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="size-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl tracking-tighter group-hover:scale-105 transition-transform">
-            F
-          </div>
-          <span className="font-semibold text-xl tracking-tight text-foreground">
-            Finora
-          </span>
-        </Link>
+        <Logo showText={true} />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
           {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <Link key={link.label} href={link.href} className="hover:text-primary transition-colors">
               {link.label}
             </Link>
           ))}

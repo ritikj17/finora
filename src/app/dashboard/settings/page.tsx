@@ -15,11 +15,13 @@ export default function SettingsPage() {
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   // Auto-fill the form once the session loads from the server
   useEffect(() => {
     if (session?.user?.name) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(session.user.name);
     }
   }, [session]);
@@ -51,6 +53,22 @@ export default function SettingsPage() {
     } catch (error) {
       console.error("Failed to sign out:", error);
       setIsSigningOut(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm("Are you absolutely sure? This action cannot be undone and all your financial data will be permanently deleted.")) {
+      return;
+    }
+    
+    setIsDeleting(true);
+    try {
+      await authClient.deleteUser();
+      router.push("/sign-up");
+    } catch (error) {
+      console.error("Failed to delete account:", error);
+      setIsDeleting(false);
+      setMessage({ type: 'error', text: "Failed to delete account. Please try again." });
     }
   };
 
@@ -132,13 +150,22 @@ export default function SettingsPage() {
             Manage your active session across the Finora platform.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col sm:flex-row gap-4">
+          <Button 
+            variant="outline" 
+            onClick={handleSignOut}
+            disabled={isSigningOut || isDeleting}
+          >
+            {isSigningOut ? "Signing out..." : "Sign Out"}
+          </Button>
+          
           <Button 
             variant="destructive" 
-            onClick={handleSignOut}
-            disabled={isSigningOut}
+            onClick={handleDeleteAccount}
+            disabled={isSigningOut || isDeleting}
+            className="bg-red-600 hover:bg-red-700 text-white font-medium"
           >
-            {isSigningOut ? "Signing out..." : "Sign Out of Finora"}
+            {isDeleting ? "Deleting..." : "Delete Account"}
           </Button>
         </CardContent>
       </Card>

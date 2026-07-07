@@ -4,7 +4,6 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut } from "@/lib/auth-client";
-import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
   user: {

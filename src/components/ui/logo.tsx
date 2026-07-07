@@ -1,28 +1,33 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+"use client";
 
-export function Logo({ className }: { className?: string }) {
+import * as React from "react"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { useSession } from "@/lib/auth-client"
+
+export function Logo({ className, showText = true }: { className?: string; showText?: boolean }) {
+  const { data: session } = useSession();
+  const href = session ? "/dashboard" : "/";
+
   return (
-    <svg 
-      viewBox="0 0 100 100" 
-      className={cn("size-8 shadow-lg shadow-primary/20 rounded-2xl", className)} 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="finora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(var(--primary))" />
-          <stop offset="100%" stopColor="#9333ea" /> {/* Tailwind purple-600 */}
-        </linearGradient>
-      </defs>
-      
-      {/* Background Plate */}
-      <rect width="100" height="100" rx="24" fill="url(#finora-gradient)" />
-      
-      {/* Abstract 'F' */}
-      <path d="M32 28h32v12H46v10h16v12H46v16H32V28z" fill="#ffffff" />
-      
-      {/* Fintech Geometric Accent Dot */}
-      <circle cx="68" cy="70" r="8" fill="#ffffff" opacity="0.9" />
-    </svg>
+    <Link href={href} className="flex items-center gap-2 group">
+      <div 
+        className={cn(
+          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-white/5 group-hover:border-white/40 group-hover:ring-2 group-hover:ring-indigo-400/50 group-hover:shadow-[0_0_20px_rgba(129,140,248,0.4)] transition-all duration-300", 
+          className || "w-8 h-8"
+        )}
+      >
+        <svg 
+          viewBox="0 0 24 24" 
+          className="w-1/2 h-1/2 text-white" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M4 14L14 4L20 10L10 20L4 14Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M14 4V14H4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      {showText && <span className="font-bold text-xl tracking-tight text-foreground">Finora</span>}
+    </Link>
   )
 }

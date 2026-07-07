@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, Part } from '@google/generative-ai';
 
 // Initialize the singleton strictly on the server
 if (!process.env.GEMINI_API_KEY) {
@@ -8,11 +8,15 @@ if (!process.env.GEMINI_API_KEY) {
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const MODELS = {
-  PRIMARY: 'gemini-2.5-flash',
+  CLASSIFICATION: 'gemini-2.5-flash',
+  REASONING: 'gemini-2.5-pro',
   FALLBACK: 'gemini-1.5-flash',
 } as const;
 
+export type TaskType = 'classification' | 'reasoning';
+
 interface GenerationOptions {
+  taskType?: TaskType;
   systemInstruction?: string;
   temperature?: number;
   responseMimeType?: string;
@@ -25,7 +29,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * exponential backoff, and model fallbacks for rate limits/server errors.
  */
 export async function generateWithFallback(
-  prompt: string,
+  prompt: string | (string | Part)[],
   options: GenerationOptions = {}
 ): Promise<string> {
   const maxRetries = 3;
@@ -34,7 +38,8 @@ export async function generateWithFallback(
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       // Use fallback model on the final attempt if we are struggling
-      const modelName = attempt === maxRetries - 1 ? MODELS.FALLBACK : MODELS.PRIMARY;
+      const defaultModel = options.taskType === 'reasoning' ? MODELS.REASONING : MODELS.CLASSIFICATION;
+      const modelName = attempt === maxRetries - 1 ? MODELS.FALLBACK : defaultModel;
       
       const model = ai.getGenerativeModel({
         model: modelName,
@@ -53,6 +58,7 @@ export async function generateWithFallback(
       }
 
       return textResponse;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const isRateLimit = error?.status === 429 || error?.message?.includes('429');
       const isServerError = error?.status >= 500 || error?.message?.includes('503');

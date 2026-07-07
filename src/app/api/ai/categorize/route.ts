@@ -5,6 +5,8 @@ import { generateWithFallback } from "@/server/ai/router";
 import { CATEGORIZATION_SYSTEM_PROMPT } from "@/server/ai/prompts/categorization";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
 
+import { rateLimit } from "@/server/api/rate-limit";
+
 export async function POST(req: NextRequest) {
   try {
     // 1. Authenticate natively via Better Auth (No proxy fetches needed!)
@@ -14,6 +16,12 @@ export async function POST(req: NextRequest) {
 
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate Limit: 10 requests per minute for categorization
+    const ip = (await headers()).get("x-forwarded-for") ?? "127.0.0.1";
+    if (!rateLimit(ip, 10, 60000)) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
 
     // 2. Parse the request body (expecting an array of transaction IDs)
@@ -42,6 +50,7 @@ export async function POST(req: NextRequest) {
 
     // 5. Invoke Gemini via Fallback Router
     const aiResponseText = await generateWithFallback(JSON.stringify(aiPayload), {
+      taskType: "classification",
       systemInstruction: CATEGORIZATION_SYSTEM_PROMPT,
       temperature: 0.0, // Force maximum determinism
       responseMimeType: "application/json"

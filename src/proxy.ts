@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { Session } from "better-auth/types";
 
+/**
+ * Edge Middleware - Authentication Guard
+ *
+ * This runs at the edge (before any server rendering) and protects all
+ * /dashboard/* routes. It verifies the session by calling the Better Auth
+ * session endpoint. If the session is invalid, the user is redirected to /sign-in.
+ *
+ * Uses native fetch (Edge-compatible) - no Node.js APIs.
+ */
 export async function proxy(request: NextRequest) {
   try {
-    // Construct the absolute URL to our API route
     const baseUrl = request.nextUrl.origin;
-    
-    // Fetch the session using native fetch (Edge compatible)
+
+    // Fetch the session using native fetch (Edge-compatible)
     const response = await fetch(`${baseUrl}/api/auth/get-session`, {
       headers: {
-        // We must manually pass the cookie to the server
+        // Forward the cookie so Better Auth can validate the session token
         cookie: request.headers.get("cookie") || "",
       },
     });
@@ -18,24 +25,23 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    // Strongly type the response to match Better Auth's expected session object
-    const session = (await response.json()) as Session | null;
+    const session = await response.json();
 
-    // If Better Auth returns no session data, the user is not logged in
-    if (!session) {
+    // If Better Auth returns no session, the user is not authenticated
+    if (!session || !session.user) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    // User is authenticated, allow them into the dashboard
+    // User is authenticated - allow the request through
     return NextResponse.next();
   } catch (error) {
-    // Log the error for production observability, then default to security (redirect)
-    console.error("[Auth Proxy Error]: Failed to verify session.", error);
+    // Default to security: redirect on any error
+    console.error("[Auth Middleware] Failed to verify session:", error);
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 }
 
-// Specify exactly which routes this proxy should protect
+// Apply this middleware to all dashboard routes
 export const config = {
   matcher: ["/dashboard/:path*"],
 };

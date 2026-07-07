@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
 import { CsvUploader } from "@/components/dashboard/csv-uploader"; // 👉 NEW IMPORT
+import type { Transaction } from "@/types";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export default async function TransactionsPage() {
   const transactions = await TransactionRepository.getByUserId(
     session.user.id,
     500,
-  );
+  ) as Transaction[];
 
   return (
     <div className="flex flex-col gap-6 max-w-7xl mx-auto h-full">

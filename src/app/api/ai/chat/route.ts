@@ -6,6 +6,7 @@ import { ADVISOR_SYSTEM_PROMPT } from "@/server/ai/prompts/advisor";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
 import { BudgetRepository } from "@/server/repositories/budget.repo";
 import { subDays } from "date-fns";
+import { rateLimit } from "@/server/api/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,6 +16,12 @@ export async function POST(req: NextRequest) {
 
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate Limit: 5 requests per minute for AI Chat (reasoning is heavier)
+    const ip = (await headers()).get("x-forwarded-for") ?? "127.0.0.1";
+    if (!rateLimit(ip, 5, 60000)) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
 
     const body = await req.json();
@@ -59,6 +66,7 @@ export async function POST(req: NextRequest) {
 
     // 4. Generate Response (Using plain text instead of strict JSON for conversational UI)
     const aiResponseText = await generateWithFallback(fullPrompt, {
+      taskType: "reasoning",
       systemInstruction: ADVISOR_SYSTEM_PROMPT,
       temperature: 0.7, // Slightly higher for conversational fluidity
       responseMimeType: "text/plain"

@@ -52,8 +52,10 @@ export default function SignInPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch (err) {
-      setAuthError("An unexpected error occurred. Please try again.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err);
+      setAuthError(err.message || "An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };
@@ -61,76 +63,67 @@ export default function SignInPage() {
   return (
     <div className="flex min-h-screen w-full bg-background">
       
-      {/* LEFT PANEL: Premium Dark Mode Showcase */}
-      <div className="relative hidden w-1/2 flex-col justify-between bg-zinc-950 p-10 text-white lg:flex border-r border-border overflow-hidden">
+            <div className="relative hidden w-1/2 flex-col justify-between bg-zinc-950 p-10 text-white lg:flex border-r border-border overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay"></div>
+        <div className="absolute -left-1/4 -top-1/4 h-[800px] w-[800px] rounded-full bg-indigo-500/20 blur-[120px]"></div>
         
-        {/* Subtle Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-        
-        {/* Ambient Mesh Gradients */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
-
-        {/* Logo (Top) */}
-        <div className="relative z-20">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity w-fit outline-none">
-            <Logo className="size-8" />
-            Finora
-          </Link>
+        <div className="relative z-10 flex items-center gap-2 font-bold text-2xl tracking-tight">
+          <Logo className="size-8 shadow-none" showText={true} />
         </div>
 
-        {/* Floating Glassmorphism Graphic (Center) */}
-        <div className="relative z-10 flex w-full flex-1 items-center justify-center">
-          <motion.div 
-            animate={{ y: [-10, 10, -10] }}
-            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-            className="flex flex-col gap-5 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl w-[340px]"
-          >
-            {/* Header Fake UI */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        {/* Animated Bento Box Mockup */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center mt-12 perspective-1000">
+          <div className="relative w-[120%] max-w-2xl rotate-y-[-10deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 ease-out">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 blur-2xl rounded-3xl" />
+            
+            {/* Main Mockup Card */}
+            <div className="relative bg-zinc-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-4">
+              
+              {/* Header Skeleton */}
+              <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                <div className="flex flex-col gap-2">
+                  <div className="h-4 w-32 bg-white/10 rounded-md" />
+                  <div className="h-8 w-48 bg-white/20 rounded-md" />
                 </div>
-                <div className="space-y-2">
-                  <div className="h-3 w-24 bg-white/20 rounded-full" />
-                  <div className="h-2 w-16 bg-white/10 rounded-full" />
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 bg-indigo-500/20 rounded-full" />
                 </div>
               </div>
-              <div className="h-6 w-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                <div className="h-1.5 w-8 bg-emerald-500 rounded-full" />
+
+              {/* Bento Grid */}
+              <div className="grid grid-cols-3 gap-4">
+                {/* Large Chart Area */}
+                <div className="col-span-2 row-span-2 bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-end h-48 relative overflow-hidden">
+                  <div className="absolute top-4 left-4 h-4 w-24 bg-white/10 rounded-md" />
+                  <div className="w-full flex items-end justify-between gap-2 h-24">
+                    {[40, 70, 45, 90, 65, 85, 55].map((h, i) => (
+                      <div key={i} className="w-full bg-indigo-500/80 rounded-t-sm transition-all duration-1000 ease-out animate-pulse" style={{ height: h + "%", animationDelay: (i * 100) + "ms" }} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Small Stats */}
+                <div className="col-span-1 bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                  <div className="h-3 w-16 bg-white/10 rounded-md" />
+                  <div className="h-6 w-24 bg-emerald-400/80 rounded-md" />
+                </div>
+                <div className="col-span-1 bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                  <div className="h-3 w-16 bg-white/10 rounded-md" />
+                  <div className="h-6 w-24 bg-rose-400/80 rounded-md" />
+                </div>
               </div>
+
             </div>
-            
-            <div className="h-10 w-40 bg-white/80 rounded-lg mt-2" />
-            
-            {/* Fake Recharts Bar Graph */}
-            <div className="flex items-end justify-between gap-3 h-28 pt-6 border-t border-white/10 mt-2">
-               {[40, 70, 45, 90, 65, 100, 85].map((height, i) => (
-                 <div 
-                   key={i} 
-                   className={`w-full rounded-t-md transition-all duration-700 ${i === 5 ? 'bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]' : 'bg-white/10 hover:bg-white/20'}`} 
-                   style={{ height: `${height}%` }} 
-                 />
-               ))}
-            </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Testimonial (Bottom) */}
-        <div className="relative z-20 max-w-md">
-          <blockquote className="space-y-4">
-            <p className="text-lg leading-relaxed text-zinc-300 font-medium">
-              &ldquo;Finora completely transformed how we manage our startup's runway. The automated categorization saved us hundreds of hours.&rdquo;
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="size-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-400">SD</div>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-white">Sofia Davis</span>
-                <span className="text-xs text-zinc-500">Founder at Vertex</span>
-              </div>
-            </div>
-          </blockquote>
+        <div className="relative z-10 max-w-md mt-12">
+          <h2 className="text-3xl font-bold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">
+            Intelligent finance.
+          </h2>
+          <p className="text-zinc-400 text-lg leading-relaxed">
+            Finora categorizes your transactions, visualizes your cash flow, and provides AI-driven insights directly from your secure data.
+          </p>
         </div>
       </div>
 
@@ -145,9 +138,9 @@ export default function SignInPage() {
             className="flex flex-col space-y-6"
           >
             <div className="flex flex-col items-center space-y-3 text-center mb-4">
-              <Link href="/" className="mb-2 hover:scale-105 transition-transform outline-none lg:hidden">
+              <div className="mb-2 hover:scale-105 transition-transform outline-none lg:hidden">
                 <Logo className="size-12" />
-              </Link>
+              </div>
               <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
               <p className="text-muted-foreground">
                 Enter your email to sign in to your account

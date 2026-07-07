@@ -15,22 +15,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CATEGORIES } from "@/lib/constants";
+import { useToast } from "@/providers/toast-provider";
 
-// 1. Strict Validation Schema (Using standard z.number to match valueAsNumber)
 const budgetSchema = z.object({
-  category: z.string().min(1, "Please select a category"),
-  amount: z.number().positive("Amount must be greater than 0"),
+  category: z.string().min(1, "Please select a category."),
+  amount: z.number().positive("Amount must be greater than $0."),
 });
 
-// Let Zod generate the exact TypeScript type
 type BudgetFormValues = z.infer<typeof budgetSchema>;
-
-// Must match the AI Prompt categories perfectly
-const CATEGORIES = [
-  "Housing", "Transportation", "Food & Dining", "Utilities", 
-  "Insurance", "Healthcare", "Savings & Investments", 
-  "Personal Care", "Entertainment", "Miscellaneous"
-];
 
 interface BudgetModalProps {
   isOpen: boolean;
@@ -39,18 +32,24 @@ interface BudgetModalProps {
 
 export function BudgetModal({ isOpen, onClose }: BudgetModalProps) {
   const router = useRouter();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  // 2. Initialize React Hook Form with the inferred type
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<BudgetFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetSchema),
-    defaultValues: {
-      category: "",
-      amount: 0,
-    },
+    defaultValues: { category: "", amount: 0 },
   });
 
-  // 3. Handle Form Submission
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
   const onSubmit = async (data: BudgetFormValues) => {
     setIsSubmitting(true);
     try {
@@ -61,68 +60,86 @@ export function BudgetModal({ isOpen, onClose }: BudgetModalProps) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save budget");
+        throw new Error("Failed to save budget.");
       }
 
-      // Reset form, close modal, and refresh server data
+      toast(`Budget set for ${data.category}!`, "success");
       reset();
       onClose();
       router.refresh();
-      
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
+      toast("Failed to save budget. Please try again.", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <DialogContent className="sm:max-w-[440px]">
         <DialogHeader>
-          <DialogTitle>Set Category Budget</DialogTitle>
+          <DialogTitle>Set Monthly Budget</DialogTitle>
           <DialogDescription>
-            Define a monthly spending limit for a specific category. If a budget already exists, this will update it.
+            Define a monthly spending limit. If a budget already exists for this
+            category, it will be updated.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-          {/* Category Dropdown */}
-          <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-5 mt-2"
+          aria-label="Budget creation form"
+        >
+          {/* Category */}
+          <div className="space-y-1.5">
+            <Label htmlFor="budget-category">Category</Label>
             <select
-              id="category"
-              className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              id="budget-category"
+              className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               {...register("category")}
             >
-              <option value="" disabled>Select a category...</option>
+              <option value="" disabled>
+                Select a category...
+              </option>
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
             {errors.category && (
-              <p className="text-[0.8rem] font-medium text-destructive">{errors.category.message}</p>
+              <p className="text-[0.8rem] font-medium text-destructive">
+                {errors.category.message}
+              </p>
             )}
           </div>
 
-          {/* Amount Input */}
-          <div className="space-y-2">
-            <Label htmlFor="amount">Monthly Limit ($)</Label>
+          {/* Amount */}
+          <div className="space-y-1.5">
+            <Label htmlFor="budget-amount">Monthly Limit ($)</Label>
             <Input
-              id="amount"
+              id="budget-amount"
               type="number"
               step="0.01"
-              placeholder="0.00"
+              min="0"
+              placeholder="500.00"
               {...register("amount", { valueAsNumber: true })}
             />
             {errors.amount && (
-              <p className="text-[0.8rem] font-medium text-destructive">{errors.amount.message}</p>
+              <p className="text-[0.8rem] font-medium text-destructive">
+                {errors.amount.message}
+              </p>
             )}
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
