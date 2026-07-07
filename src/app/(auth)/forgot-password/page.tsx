@@ -39,6 +39,7 @@ export default function ForgotPasswordPage() {
 
     try {
       // Better Auth forgetPassword API
+      // @ts-expect-error: forgetPassword exists on the client at runtime but TS inference is missing without server types
       const { error: apiError } = await authClient.forgetPassword({
         email: data.email,
         redirectTo: "/reset-password",
