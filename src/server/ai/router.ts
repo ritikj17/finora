@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, Part } from '@google/generative-ai';
 
 // Initialize the singleton strictly on the server
 if (!process.env.GEMINI_API_KEY) {
@@ -29,7 +29,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * exponential backoff, and model fallbacks for rate limits/server errors.
  */
 export async function generateWithFallback(
-  prompt: string | unknown[],
+  prompt: string | (string | Part)[],
   options: GenerationOptions = {}
 ): Promise<string> {
   const maxRetries = 3;
