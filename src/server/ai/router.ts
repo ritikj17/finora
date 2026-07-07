@@ -53,6 +53,7 @@ export async function generateWithFallback(
       }
 
       return textResponse;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const isRateLimit = error?.status === 429 || error?.message?.includes('429');
       const isServerError = error?.status >= 500 || error?.message?.includes('503');

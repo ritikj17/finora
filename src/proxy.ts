@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
  *
  * Uses native fetch (Edge-compatible) — no Node.js APIs.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   try {
     const baseUrl = request.nextUrl.origin;
 

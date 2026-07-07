@@ -52,7 +52,7 @@ export default function SignInPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch (err) {
+    } catch {
       setAuthError("An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
@@ -121,7 +121,7 @@ export default function SignInPage() {
         <div className="relative z-20 max-w-md">
           <blockquote className="space-y-4">
             <p className="text-lg leading-relaxed text-zinc-300 font-medium">
-              &ldquo;Finora completely transformed how we manage our startup's runway. The automated categorization saved us hundreds of hours.&rdquo;
+              &ldquo;Finora completely transformed how we manage our startup&apos;s runway. The automated categorization saved us hundreds of hours.&rdquo;
             </p>
             <div className="flex items-center gap-3">
               <div className="size-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-400">SD</div>

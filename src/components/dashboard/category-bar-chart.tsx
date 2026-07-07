@@ -1,66 +1,125 @@
 "use client";
 
 import * as React from "react";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Cell,
+} from "recharts";
+import { formatCurrency } from "@/lib/format";
+import { CHART_COLORS } from "@/lib/constants";
 
 interface CategoryData {
   name: string;
   value: number;
 }
 
-const COLORS = [
-  "#2563eb", "#db2777", "#059669", "#d97706", "#7c3aed", 
-  "#0891b2", "#be123c", "#4d7c0f", "#a21caf", "#be185d"
-];
-
 export function CategoryBarChart({ data }: { data: CategoryData[] }) {
-  // Sort data descending so the highest expense is at the top
+  // Sort ascending so highest expense appears at top of horizontal bar chart
   const sortedData = [...data].sort((a, b) => a.value - b.value);
 
   if (data.length === 0) {
     return (
-      <div className="rounded-xl border bg-card p-6 shadow-sm flex flex-col h-[450px] items-center justify-center text-center">
-        <h3 className="font-semibold">No Category Data</h3>
+      <div className="rounded-xl border border-border bg-card p-6 shadow-sm flex flex-col h-[420px] items-center justify-center text-center">
+        <div
+          className="size-10 rounded-xl bg-muted flex items-center justify-center mb-3"
+          aria-hidden="true"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="text-muted-foreground"
+          >
+            <path d="M3 3v18h18" />
+            <path d="m19 9-5 5-4-4-3 3" />
+          </svg>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          No category data available yet.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border bg-card p-6 shadow-sm flex flex-col h-[450px]">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-sm flex flex-col h-[420px]">
       <div className="flex flex-col space-y-1.5 mb-6">
-        <h3 className="font-semibold leading-none tracking-tight">Category Breakdown</h3>
-        <p className="text-sm text-muted-foreground">Highest spending areas ranked by volume.</p>
+        <h3 className="font-semibold leading-none tracking-tight">
+          Category Breakdown
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          Spending ranked by category volume.
+        </p>
       </div>
       <div className="flex-1 w-full min-h-0">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={sortedData} layout="vertical" margin={{ top: 0, right: 30, left: 40, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="hsl(var(--border))" />
-            <XAxis 
+          <BarChart
+            data={sortedData}
+            layout="vertical"
+            margin={{ top: 0, right: 24, left: 8, bottom: 0 }}
+            aria-label="Horizontal bar chart of spending by category"
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              horizontal={false}
+              vertical={true}
+              stroke="hsl(var(--border))"
+              strokeOpacity={0.5}
+            />
+            <XAxis
               type="number"
-              tickFormatter={(val) => `$${val}`}
+              tickFormatter={(v) => `$${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`}
               stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
+              tick={{ fill: "hsl(var(--muted-foreground))" }}
             />
-            <YAxis 
-              dataKey="name" 
+            <YAxis
+              dataKey="name"
               type="category"
-              stroke="hsl(var(--foreground))"
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
-              width={100}
+              width={108}
+              tick={{ fill: "hsl(var(--foreground))" }}
             />
-            <Tooltip 
-              cursor={{ fill: 'hsl(var(--muted))' }}
-              // 👉 FIXED: Changed to (value: any) and cast with Number() to satisfy Recharts strict typing
-              formatter={(value: any) => [`$${Number(value || 0).toFixed(2)}`, "Spent"]}
-              contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))' }}
+            <Tooltip
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.5 }}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              formatter={(value: any) => [
+                formatCurrency(Number(value || 0)),
+                "Spent",
+              ]}
+              contentStyle={{
+                borderRadius: "10px",
+                border: "1px solid hsl(var(--border))",
+                backgroundColor: "hsl(var(--card))",
+                color: "hsl(var(--card-foreground))",
+                fontSize: "12px",
+                padding: "10px 14px",
+              }}
             />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={24}>
+            <Bar dataKey="value" radius={[0, 5, 5, 0]} barSize={20}>
               {sortedData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[(sortedData.length - 1 - index) % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={
+                    CHART_COLORS[
+                      (sortedData.length - 1 - index) % CHART_COLORS.length
+                    ]
+                  }
+                />
               ))}
             </Bar>
           </BarChart>

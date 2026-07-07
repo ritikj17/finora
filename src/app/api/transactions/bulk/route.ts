@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Map the incoming payload to our Prisma schema requirements
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload = transactions.map((t: any) => ({
       userId: session.user.id,
       date: new Date(t.date),
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
       insertedCount: result.count 
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Bulk Upload Error]:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

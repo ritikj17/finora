@@ -20,6 +20,7 @@ export default function SettingsPage() {
   // Auto-fill the form once the session loads from the server
   useEffect(() => {
     if (session?.user?.name) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(session.user.name);
     }
   }, [session]);

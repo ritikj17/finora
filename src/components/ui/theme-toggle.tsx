@@ -66,7 +66,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   const [mounted, setMounted] = React.useState(false);
 
   // Prevent hydration mismatch
-  React.useEffect(() => setMounted(true), []);
+  React.useEffect(() => /* eslint-disable react-hooks/set-state-in-effect */ setMounted(true), []);
   if (!mounted) {
     return (
       <div

@@ -1,26 +1,33 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/server/db";
 import { startOfMonth, endOfMonth } from "date-fns";
 
 export const BudgetRepository = {
   /**
-   * Upserts a budget limit for a specific category.
+   * Retrieves all budgets for a user
+   */
+  async getByUserId(userId: string) {
+    return db.budget.findMany({
+      where: { userId },
+      orderBy: { category: "asc" },
+    });
+  },
+
+  /**
+   * Upserts a budget for a given category and user.
    */
   async upsertBudget(userId: string, category: string, amount: number) {
-    // We use a unique constraint on [userId, category] in the schema
-    // Prisma's upsert doesn't perfectly support composite uniques without a dedicated ID in some DBs,
-    // so we handle it via findFirst + create/update for maximum compatibility across SQL dialects.
-    const existing = await prisma.budget.findFirst({
+    const existing = await db.budget.findFirst({
       where: { userId, category },
     });
 
     if (existing) {
-      return prisma.budget.update({
+      return db.budget.update({
         where: { id: existing.id },
         data: { amount },
       });
     }
 
-    return prisma.budget.create({
+    return db.budget.create({
       data: {
         userId,
         category,
@@ -39,7 +46,7 @@ export const BudgetRepository = {
     const monthEnd = endOfMonth(now);
 
     // 1. Fetch user's defined budget limits
-    const budgets = await prisma.budget.findMany({
+    const budgets = await db.budget.findMany({
       where: { userId },
       orderBy: { amount: "desc" },
     });
@@ -49,7 +56,7 @@ export const BudgetRepository = {
     // 2. Fetch current month's spending grouped by those specific categories
     const budgetCategories = budgets.map((b) => b.category);
     
-    const spending = await prisma.transaction.groupBy({
+    const spending = await db.transaction.groupBy({
       by: ["category"],
       where: {
         userId,

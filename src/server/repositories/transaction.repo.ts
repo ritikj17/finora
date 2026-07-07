@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/server/db";
 import type { Transaction, Prisma } from "@prisma/client";
 import { format, eachDayOfInterval } from "date-fns";
 
@@ -6,7 +6,7 @@ export type CreateTransactionInput = Omit<Transaction, "id" | "createdAt" | "upd
 
 export const TransactionRepository = {
   async getByUserId(userId: string, limit: number = 100): Promise<Transaction[]> {
-    return prisma.transaction.findMany({
+    return db.transaction.findMany({
       where: { userId },
       orderBy: { date: "desc" },
       take: limit,
@@ -14,13 +14,13 @@ export const TransactionRepository = {
   },
 
   async getByIds(userId: string, transactionIds: string[]): Promise<Transaction[]> {
-    return prisma.transaction.findMany({
+    return db.transaction.findMany({
       where: { userId, id: { in: transactionIds } },
     });
   },
 
   async getSummary(userId: string, startDate: Date, endDate: Date) {
-    const aggregations = await prisma.transaction.groupBy({
+    const aggregations = await db.transaction.groupBy({
       by: ["type"],
       where: { userId, date: { gte: startDate, lte: endDate } },
       _sum: { amount: true },
@@ -45,7 +45,7 @@ export const TransactionRepository = {
    * 👉 NEW: Fetch aggregated expenses grouped by AI category
    */
   async getCategoryBreakdown(userId: string, startDate: Date, endDate: Date) {
-    const aggregations = await prisma.transaction.groupBy({
+    const aggregations = await db.transaction.groupBy({
       by: ["category"],
       where: {
         userId,
@@ -69,7 +69,7 @@ export const TransactionRepository = {
    */
   async getCashFlow(userId: string, startDate: Date, endDate: Date) {
     // Fetch raw transactions to group safely in memory (avoids Prisma/Postgres timezone edge cases)
-    const transactions = await prisma.transaction.findMany({
+    const transactions = await db.transaction.findMany({
       where: { userId, date: { gte: startDate, lte: endDate } },
       select: { date: true, amount: true, type: true },
     });
@@ -94,25 +94,25 @@ export const TransactionRepository = {
   },
 
   async create(data: CreateTransactionInput): Promise<Transaction> {
-    return prisma.transaction.create({ data });
+    return db.transaction.create({ data });
   },
 
   async createMany(data: CreateTransactionInput[]): Promise<Prisma.BatchPayload> {
-    return prisma.transaction.createMany({ data, skipDuplicates: true });
+    return db.transaction.createMany({ data, skipDuplicates: true });
   },
 
   async batchUpdateCategories(userId: string, updates: { transactionId: string; category: string }[]): Promise<void> {
     const updatePromises = updates.map((update) =>
-      prisma.transaction.updateMany({
+      db.transaction.updateMany({
         where: { id: update.transactionId, userId: userId },
         data: { category: update.category },
       })
     );
-    await prisma.$transaction(updatePromises);
+    await db.$transaction(updatePromises);
   },
   
   async delete(transactionId: string, userId: string): Promise<Transaction> {
-    return prisma.transaction.delete({
+    return db.transaction.delete({
       where: { id: transactionId, userId: userId },
     });
   }
