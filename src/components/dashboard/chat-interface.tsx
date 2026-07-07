@@ -85,7 +85,7 @@ export function ChatInterface() {
     {
       role: "ai",
       content:
-        "Hello! I'm your **Finora AI Advisor**, powered by Google Gemini.\n\nI have access to your real 30-day cash flow data and active budgets, so every answer I give is grounded in your actual numbers — no guessing.\n\nWhat would you like to know about your finances?",
+        "Hello! I'm your **Finora AI Advisor**, powered by Google Gemini.\n\nI have access to your real 30-day cash flow data and active budgets, so every answer I give is grounded in your actual numbers - no guessing.\n\nWhat would you like to know about your finances?",
     },
   ]);
   const [input, setInput] = React.useState("");

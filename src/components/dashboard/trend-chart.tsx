@@ -19,7 +19,7 @@ interface TrendData {
   expense: number;
 }
 
-// Unique IDs — different from cash-flow-chart.tsx to avoid SVG gradient collisions
+// Unique IDs - different from cash-flow-chart.tsx to avoid SVG gradient collisions
 const GRADIENT_INCOME_ID = "trend-income";
 const GRADIENT_EXPENSE_ID = "trend-expense";
 

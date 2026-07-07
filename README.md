@@ -1,4 +1,4 @@
-# Finora — AI-Powered Personal Finance SaaS
+# Finora - AI-Powered Personal Finance SaaS
 
 <div align="center">
   <img src="public/og-image.png" alt="Finora Dashboard" width="800" />
@@ -14,7 +14,7 @@
 
 **Finora** is a full-stack personal finance SaaS that autonomously categorizes transactions using Google Gemini AI, tracks budgets in real-time, and delivers a RAG-powered financial advisor chat.
 
-It is engineered to production-quality standards — strict TypeScript, server-side data fetching, edge-level authentication middleware, repository pattern, and CI/CD via GitHub Actions.
+It is engineered to production-quality standards - strict TypeScript, server-side data fetching, edge-level authentication middleware, repository pattern, and CI/CD via GitHub Actions.
 
 ---
 
@@ -96,7 +96,7 @@ src/
 
 - Node.js 20+
 - pnpm 9+
-- PostgreSQL database (recommend [Neon](https://neon.tech) — free tier available)
+- PostgreSQL database (recommend [Neon](https://neon.tech) - free tier available)
 - Google AI API key from [aistudio.google.com](https://aistudio.google.com)
 
 ### Setup

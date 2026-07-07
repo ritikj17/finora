@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Finora — AI-Powered Personal Finance",
+    name: "Finora - AI-Powered Personal Finance",
     short_name: "Finora",
     description:
-      "AI-powered personal finance — categorize transactions, track budgets, and get Gemini-powered insights.",
+      "AI-powered personal finance - categorize transactions, track budgets, and get Gemini-powered insights.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

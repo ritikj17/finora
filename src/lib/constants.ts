@@ -47,7 +47,7 @@ export const ROUTES = {
 } as const;
 
 /**
- * Chart color palette — premium fintech palette aligned with the indigo/blue theme
+ * Chart color palette - premium fintech palette aligned with the indigo/blue theme
  */
 export const CHART_COLORS = [
   "#6366f1", // indigo-500

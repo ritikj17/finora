@@ -74,7 +74,7 @@ export default function HowItWorksPage() {
           </nav>
           <div className="flex items-center gap-4">
             <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25" asChild>
-              <Link href="/sign-in">Launch App Demo</Link>
+              <Link href="/sign-up">Get Started</Link>
             </Button>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function HowItWorksPage() {
         <div className="w-full max-w-4xl text-center px-4 mt-32">
           <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to test the application?</h2>
           <Button size="lg" className="h-14 px-10 text-base" asChild>
-             <Link href="/sign-in">Launch Full-Stack Demo</Link>
+             <Link href="/sign-up">Get Started</Link>
           </Button>
         </div>
       </main>

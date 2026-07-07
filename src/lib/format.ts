@@ -1,7 +1,7 @@
 /**
  * src/lib/format.ts
  *
- * Shared formatting utilities — single source of truth.
+ * Shared formatting utilities - single source of truth.
  * Eliminates the duplicate formatCurrency defined in 3+ components.
  */
 

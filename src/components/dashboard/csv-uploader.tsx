@@ -71,7 +71,7 @@ export function CsvUploader() {
     <div
       role="button"
       tabIndex={0}
-      aria-label="Upload CSV file — click or drag and drop"
+      aria-label="Upload CSV file - click or drag and drop"
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           fileInputRef.current?.click();

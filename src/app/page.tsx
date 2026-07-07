@@ -26,7 +26,7 @@ const features = [
     ),
     color: "text-primary bg-primary/10",
     title: "RAG AI Advisor",
-    description: "Chat with Gemini using your actual financial data injected into context. Zero hallucinations — every answer is grounded in your real numbers.",
+    description: "Chat with Gemini using your actual financial data injected into context. Zero hallucinations - every answer is grounded in your real numbers.",
     badge: "Featured",
   },
   {
@@ -53,7 +53,7 @@ const features = [
     ),
     color: "text-violet-600 bg-violet-500/10 dark:text-violet-400",
     title: "CSV Data Ingestion",
-    description: "Drag-and-drop bank statements. Client-side parsing validates every row before transmission — no malformed data enters your database.",
+    description: "Drag-and-drop bank statements. Client-side parsing validates every row before transmission - no malformed data enters your database.",
     badge: null,
   },
   {
@@ -153,7 +153,7 @@ function Navbar() {
             <Link href="/sign-in">Sign In</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href="/sign-in">Launch App</Link>
+            <Link href="/sign-up">Get Started</Link>
           </Button>
         </div>
       </div>
@@ -209,7 +209,7 @@ function HeroSection() {
         >
           Finora ingests raw bank statements, autonomously categorizes every
           transaction with Gemini AI, and gives you a live RAG-powered financial
-          advisor — all in one production-quality Next.js application.
+          advisor - all in one production-quality Next.js application.
         </motion.p>
 
         {/* CTAs */}
@@ -273,7 +273,7 @@ function ProblemSection() {
             {[
               "Spreadsheets require hours of manual categorization every month",
               "Bank apps show raw transactions with no useful context",
-              "Budgets are guesses — no automatic overspend alerts",
+              "Budgets are guesses - no automatic overspend alerts",
               "No way to ask questions about your own spending patterns",
             ].map((item) => (
               <li key={item} className="flex items-start gap-2">
@@ -323,7 +323,7 @@ function FeaturesSection() {
           Built for real financial clarity
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-          Every feature is engineered end-to-end — from database schema to UI component — with production-grade reliability.
+          Every feature is engineered end-to-end - from database schema to UI component - with production-grade reliability.
         </p>
       </div>
 
@@ -383,7 +383,7 @@ function AISection() {
               { step: "01", label: "Query received", desc: "User asks: \"Am I on track this month?\"" },
               { step: "02", label: "Context fetched", desc: "Income, expenses, and budgets pulled from PostgreSQL" },
               { step: "03", label: "RAG prompt built", desc: "Financial data + conversation injected into Gemini" },
-              { step: "04", label: "Grounded answer", desc: "Response cites real numbers — no hallucinations" },
+              { step: "04", label: "Grounded answer", desc: "Response cites real numbers - no hallucinations" },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-4">
                 <span className="font-mono text-xs text-primary font-bold mt-0.5 shrink-0">{item.step}</span>
@@ -425,7 +425,7 @@ function AISection() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
               </div>
               <div className="bg-muted text-sm px-4 py-2.5 rounded-2xl rounded-tl-sm max-w-[85%] leading-relaxed">
-                Based on your data: you&apos;ve spent <span className="font-semibold text-foreground">$387</span> on Food & Dining against a <span className="font-semibold text-foreground">$500</span> budget. You have <strong>$113 remaining</strong> with 8 days left in the month — you&apos;re slightly above pace. I&apos;d recommend limiting dining out to 2×/week.
+                Based on your data: you&apos;ve spent <span className="font-semibold text-foreground">$387</span> on Food & Dining against a <span className="font-semibold text-foreground">$500</span> budget. You have <strong>$113 remaining</strong> with 8 days left in the month - you&apos;re slightly above pace. I&apos;d recommend limiting dining out to 2×/week.
               </div>
             </div>
           </div>
@@ -529,11 +529,11 @@ function CTASection() {
             Ready to explore the architecture?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-            Launch the live demo, inspect the full-stack implementation, or check out the system architecture walkthrough.
+            Get started, inspect the full-stack implementation, or check out the system architecture walkthrough.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button size="lg" className="h-12 px-8 shadow-lg shadow-primary/25" asChild>
-              <Link href="/sign-in">Launch Live Demo</Link>
+              <Link href="/sign-up">Get Started</Link>
             </Button>
             <Button size="lg" variant="outline" className="h-12 px-8 bg-background/50 backdrop-blur-sm" asChild>
               <Link href="/how-it-works">System Architecture</Link>

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /**
- * Edge Middleware — Authentication Guard
+ * Edge Middleware - Authentication Guard
  *
  * This runs at the edge (before any server rendering) and protects all
  * /dashboard/* routes. It verifies the session by calling the Better Auth
  * session endpoint. If the session is invalid, the user is redirected to /sign-in.
  *
- * Uses native fetch (Edge-compatible) — no Node.js APIs.
+ * Uses native fetch (Edge-compatible) - no Node.js APIs.
  */
 export async function proxy(request: NextRequest) {
   try {
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    // User is authenticated — allow the request through
+    // User is authenticated - allow the request through
     return NextResponse.next();
   } catch (error) {
     // Default to security: redirect on any error

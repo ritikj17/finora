@@ -18,7 +18,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://finora.app";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Finora — AI-Powered Personal Finance",
+    default: "Finora - AI-Powered Personal Finance",
     template: "%s | Finora",
   },
   description:
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "Finora",
-    title: "Finora — AI-Powered Personal Finance",
+    title: "Finora - AI-Powered Personal Finance",
     description:
       "Automatically categorize transactions, track budgets, and get AI-powered financial insights. Built with Next.js, Prisma, and Google Gemini.",
     images: [
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Finora — AI-Powered Personal Finance Dashboard",
+        alt: "Finora - AI-Powered Personal Finance Dashboard",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Finora — AI-Powered Personal Finance",
+    title: "Finora - AI-Powered Personal Finance",
     description:
       "Automatically categorize transactions, track budgets, and get AI-powered financial insights.",
     images: ["/og-image.png"],
