@@ -52,8 +52,8 @@ const features = [
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg>
     ),
     color: "text-violet-600 bg-violet-500/10 dark:text-violet-400",
-    title: "CSV Data Ingestion",
-    description: "Drag-and-drop bank statements. Client-side parsing validates every row before transmission - no malformed data enters your database.",
+    title: "Document Ingestion (CSV/PDF)",
+    description: "Drag-and-drop CSV or PDF bank statements. Gemini autonomously reads unstructured PDFs and maps them perfectly to your database schema.",
     badge: null,
   },
   {
@@ -290,7 +290,7 @@ function ProblemSection() {
           <h3 className="text-xl font-bold mb-3">Autonomous financial intelligence</h3>
           <ul className="space-y-2.5 text-sm text-muted-foreground">
             {[
-              "Upload CSV → AI instantly categorizes every transaction",
+              "Upload Document → AI instantly categorizes every transaction",
               "Live budget progress bars update as you spend",
               "Real-time alerts at 75% and 90% of each budget limit",
               "Ask Gemini AI questions about your actual spending data",
@@ -526,8 +526,8 @@ interface ArchitectureStep {
 const architectureSteps: ArchitectureStep[] = [
   {
     id: "01",
-    title: "Data Ingestion Pipeline",
-    description: "Users upload bulk CSV bank statements. Client-side workers parse and sanitize rows before transmitting them securely to our server actions, ensuring zero malformed payloads enter the database.",
+    title: "Data Ingestion (CSV/PDF)",
+    description: "Users upload bulk bank statements. Client-side workers instantly process CSVs, while an AI document pipeline powered by Gemini rapidly extracts tabular transaction data from unstructured PDFs.",
     visual: (
       <div className="relative size-full bg-card rounded-2xl border flex items-center justify-center overflow-hidden shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent" />

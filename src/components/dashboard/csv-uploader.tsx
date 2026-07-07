@@ -13,19 +13,43 @@ export function CsvUploader() {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const processFile = async (file: File) => {
-    if (file.type !== "text/csv" && !file.name.endsWith(".csv")) {
-      toast("Please upload a valid CSV file.", "error");
+    const isCSV = file.type === "text/csv" || file.name.endsWith(".csv");
+    const isPDF = file.type === "application/pdf" || file.name.endsWith(".pdf");
+
+    if (!isCSV && !isPDF) {
+      toast("Please upload a valid CSV or PDF file.", "error");
       return;
     }
 
     setIsUploading(true);
 
     try {
-      const text = await file.text();
-      const parsedTransactions = parseBankCSV(text);
+      let parsedTransactions;
 
-      if (parsedTransactions.length === 0) {
-        throw new Error("No valid transactions found in the CSV.");
+      if (isCSV) {
+        const text = await file.text();
+        parsedTransactions = parseBankCSV(text);
+      } else if (isPDF) {
+        const base64Pdf = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve((reader.result as string).split(",")[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+        
+        const extractRes = await fetch("/api/ai/extract-pdf", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64Pdf }),
+        });
+        
+        if (!extractRes.ok) throw new Error("AI failed to extract transactions from PDF.");
+        const extractData = await extractRes.json();
+        parsedTransactions = extractData.transactions;
+      }
+
+      if (!parsedTransactions || parsedTransactions.length === 0) {
+        throw new Error("No valid transactions found in the document.");
       }
 
       const response = await fetch("/api/transactions/bulk", {
@@ -46,7 +70,7 @@ export function CsvUploader() {
       router.refresh();
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : "Failed to process CSV file.";
+        error instanceof Error ? error.message : "Failed to process document.";
       console.error("[CsvUploader]", error);
       toast(message, "error");
     } finally {
@@ -71,7 +95,7 @@ export function CsvUploader() {
     <div
       role="button"
       tabIndex={0}
-      aria-label="Upload CSV file - click or drag and drop"
+      aria-label="Upload document - click or drag and drop"
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           fileInputRef.current?.click();
@@ -92,7 +116,7 @@ export function CsvUploader() {
     >
       <input
         type="file"
-        accept=".csv"
+        accept=".csv,.pdf"
         className="hidden"
         ref={fileInputRef}
         aria-hidden="true"
@@ -101,9 +125,9 @@ export function CsvUploader() {
         }}
       />
 
-      <div className="flex flex-col items-center justify-center gap-3 pointer-events-none">
+      <div className="flex flex-col items-center justify-center gap-4">
         <div
-          className={`size-12 rounded-xl flex items-center justify-center transition-colors ${
+          className={`p-4 rounded-full transition-colors ${
             isDragging
               ? "bg-primary/20 text-primary"
               : "bg-muted text-muted-foreground"
@@ -159,13 +183,17 @@ export function CsvUploader() {
           {!isUploading && (
             <>
               <p className="text-sm text-muted-foreground mt-1">
-                Drag and drop your CSV, or{" "}
+                Drag and drop your CSV or PDF, or{" "}
                 <span className="text-primary font-medium">browse files</span>
               </p>
               <p className="text-xs text-muted-foreground/70 mt-2">
-                Required columns:{" "}
+                Supported formats:{" "}
                 <code className="bg-muted px-1.5 py-0.5 rounded text-xs">
-                  Date, Description, Amount, Type
+                  .csv
+                </code>
+                {", "}
+                <code className="bg-muted px-1.5 py-0.5 rounded text-xs">
+                  .pdf
                 </code>
               </p>
             </>

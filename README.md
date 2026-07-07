@@ -5,7 +5,7 @@
 Finora is a production-ready, AI-powered personal finance SaaS built with modern web architecture. It autonomously ingests raw bank statements, categorizes every transaction using Google's Gemini AI, and provides a RAG-powered financial advisor to query your actual spending data.
 
 ## Features
-- **Autonomous Categorization**: Upload CSV statements, and Gemini automatically categorizes 100% of transactions.
+- **Autonomous Categorization**: Upload CSV or PDF statements, and Gemini automatically categorizes 100% of transactions. Gemini's native document AI processes unstructured PDFs with zero templates required.
 - **RAG-Powered AI Advisor**: Chat with your financial data in real-time.
 - **Live Budget Tracking**: Progress bars and real-time alerts as you approach budget limits.
 - **Modern Authentication**: Powered by Better Auth with secure credentials.
