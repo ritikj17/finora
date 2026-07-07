@@ -13,7 +13,7 @@ export function Logo({ className, showText = true }: { className?: string; showT
     <Link href={href} className="flex items-center gap-2 group">
       <div 
         className={cn(
-          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-transparent group-hover:border-white/80 transition-all duration-300", 
+          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-white/5 group-hover:border-white/40 group-hover:ring-2 group-hover:ring-indigo-400/50 group-hover:shadow-[0_0_20px_rgba(129,140,248,0.4)] transition-all duration-300", 
           className || "w-8 h-8"
         )}
       >

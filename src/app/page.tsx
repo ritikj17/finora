@@ -248,9 +248,15 @@ function HeroSection() {
 function ProblemSection() {
   return (
     <section className="w-full max-w-6xl mx-auto py-20 px-4">
-      <div className="grid md:grid-cols-2 gap-6">
+      <motion.div 
+        className="grid md:grid-cols-2 gap-6"
+        variants={stagger}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, margin: "-100px" }}
+      >
         {/* Problem */}
-        <div className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-8">
+        <motion.div variants={fadeUp} className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-8">
           <div className="flex items-center gap-2 mb-4">
             <div className="size-6 rounded-full bg-rose-500/20 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-rose-500" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -271,10 +277,10 @@ function ProblemSection() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Solution */}
-        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8">
+        <motion.div variants={fadeUp} className="rounded-2xl border border-primary/20 bg-primary/5 p-8">
           <div className="flex items-center gap-2 mb-4">
             <div className="size-6 rounded-full bg-primary/20 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-primary" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -295,8 +301,8 @@ function ProblemSection() {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
