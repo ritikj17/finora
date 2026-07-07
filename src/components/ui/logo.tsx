@@ -10,14 +10,13 @@ export function Logo({ className, showText = true }: { className?: string; showT
   const href = session ? "/dashboard" : "/";
 
   return (
-    <Link href={href} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+    <Link href={href} className="flex items-center gap-2 group">
       <div 
         className={cn(
-          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20", 
+          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-transparent group-hover:border-white/80 transition-all duration-300", 
           className || "w-8 h-8"
         )}
       >
-        <div className="absolute inset-0 bg-white/20 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity" />
         <svg 
           viewBox="0 0 24 24" 
           className="w-1/2 h-1/2 text-white" 

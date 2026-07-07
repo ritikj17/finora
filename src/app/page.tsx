@@ -156,10 +156,6 @@ function Navbar() {
 }
 
 function HeroSection() {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 800], [0, -100]);
-  const opacity = useTransform(scrollY, [0, 800], [1, 0.3]);
-
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 overflow-hidden">
       {/* Background glows */}
@@ -174,7 +170,6 @@ function HeroSection() {
 
       <motion.div
         className="relative z-10 flex flex-col items-center max-w-5xl mx-auto"
-        style={{ y: y1, opacity }}
         variants={stagger}
         initial="initial"
         animate="animate"
