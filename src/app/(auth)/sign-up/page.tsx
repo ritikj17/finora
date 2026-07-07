@@ -54,8 +54,10 @@ export default function SignUpPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch {
-      setAuthError("An unexpected error occurred. Please try again.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err);
+      setAuthError(err.message || "An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };
