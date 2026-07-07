@@ -21,7 +21,7 @@ export const auth = betterAuth({
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : [])
   ],
   session: {
-    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    expiresIn: 60 * 60 * 24 * 365 * 10, // 10 years
     updateAge: 60 * 60 * 24, // Update session age every 1 day
   },
   user: {

@@ -1,9 +1,16 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+"use client";
 
-export function Logo({ className, showText = false }: { className?: string; showText?: boolean }) {
+import * as React from "react"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { useSession } from "@/lib/auth-client"
+
+export function Logo({ className, showText = true }: { className?: string; showText?: boolean }) {
+  const { data: session } = useSession();
+  const href = session ? "/dashboard" : "/";
+
   return (
-    <div className="flex items-center gap-2">
+    <Link href={href} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
       <div 
         className={cn(
           "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20", 
@@ -22,6 +29,6 @@ export function Logo({ className, showText = false }: { className?: string; show
         </svg>
       </div>
       {showText && <span className="font-bold text-xl tracking-tight text-foreground">Finora</span>}
-    </div>
+    </Link>
   )
 }

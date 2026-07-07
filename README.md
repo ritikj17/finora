@@ -1,108 +1,67 @@
 # Finora - AI-Powered Personal Finance SaaS
 
 <div align="center">
-  <img src="public/og-image.png" alt="Finora Dashboard" width="800" />
+  <img src="public/og-image.png" alt="Finora Dashboard" width="800" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
   <br/><br/>
-  <strong>A production-quality full-stack fintech application built for portfolio impact.</strong>
-  <br/>
-  Next.js · Prisma · PostgreSQL · Google Gemini AI · Better Auth
+  
+  [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+  [![Prisma](https://img.shields.io/badge/Prisma-7-2D3748?style=for-the-badge&logo=prisma)](https://prisma.io)
+  [![PostgreSQL](https://img.shields.io/badge/Neon-Postgres-336791?style=for-the-badge&logo=postgresql)](https://neon.tech)
+  [![Gemini](https://img.shields.io/badge/AI-Google_Gemini-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev/)
+  
+  <strong>A production-quality full-stack fintech application built for massive impact.</strong>
 </div>
 
 ---
 
-## Overview
+## 🚀 Overview
 
-**Finora** is a full-stack personal finance SaaS that autonomously categorizes transactions using Google Gemini AI, tracks budgets in real-time, and delivers a RAG-powered financial advisor chat.
+**Finora** is a state-of-the-art personal finance SaaS that autonomously categorizes transactions using Google Gemini AI, tracks budgets in real-time, and delivers a RAG-powered financial advisor chat.
 
-It is engineered to production-quality standards - strict TypeScript, server-side data fetching, edge-level authentication middleware, repository pattern, and CI/CD via GitHub Actions.
+Engineered to production-quality standards, it features strict TypeScript, server-side data fetching, edge-level authentication middleware, repository pattern, and a flawless premium UI utilizing custom cursors, Framer Motion, and Tailwind CSS.
 
 ---
 
-## Features
+## ✨ Features
 
 | Feature | Description |
 |---|---|
-| **AI Categorization** | Gemini batch-classifies transactions into 10 budget categories |
-| **RAG Financial Advisor** | Chat injects your real financial data into the LLM context window |
-| **Budget Tracking** | Set monthly limits per category with real-time progress bars |
-| **Cash Flow Analytics** | Area charts and category breakdowns with Recharts |
-| **CSV Import** | Drag-and-drop bank statement ingestion with client-side validation |
-| **Theme Toggle** | Light / Dark / System preference support |
-| **Edge Auth** | Better Auth sessions with Next.js edge middleware guard |
+| 🧠 **Autonomous AI Categorization** | Gemini batch-classifies bulk transactions into strictly typed budget categories. |
+| 💬 **RAG Financial Advisor** | Chat injects your live financial data into the LLM context window for mathematically sound advice. |
+| 📊 **Real-time Budget Tracking** | Set monthly limits per category with dynamic progress UI thresholds. |
+| 📈 **Cash Flow Analytics** | Beautiful area charts and category breakdowns with Recharts. |
+| 🔒 **Edge-Guard Auth** | Better Auth sessions guarded by Next.js Edge Middleware. "Infinite" 10-year session configuration. |
+| 🎨 **Premium UI/UX** | Framer Motion animations, custom glossy cursor, Bento Box auth layouts, and strict Dark/Light modes. |
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router, Server Components, Server Actions) |
-| **Database** | PostgreSQL via Neon serverless |
-| **ORM** | Prisma 7 with `@prisma/adapter-pg` |
-| **Authentication** | Better Auth (HTTP-only cookies, 7-day sessions) |
-| **AI** | Google Gemini 2.5 Flash / Pro with exponential backoff |
-| **Charts** | Recharts (AreaChart, PieChart, BarChart) |
-| **Animations** | Framer Motion |
-| **Validation** | Zod + React Hook Form |
-| **Styling** | TailwindCSS v4 + CSS custom properties |
-| **Package Manager** | pnpm |
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Server Components)
+- **Database**: [PostgreSQL](https://postgresql.org/) via [Neon](https://neon.tech)
+- **ORM**: [Prisma 7](https://prisma.io/)
+- **Auth**: [Better Auth](https://better-auth.com/)
+- **AI**: Google Gemini (2.5 Flash / 2.5 Pro Fallback)
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
 
 ---
 
-## Architecture
+## 🏗 Architecture & Design Decisions
 
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── (auth)/             # Sign-in / Sign-up pages
-│   ├── api/                # API routes (AI, budgets, transactions)
-│   ├── dashboard/          # Authenticated dashboard pages
-│   ├── how-it-works/       # Architecture showcase page
-│   └── page.tsx            # Public landing page
-├── components/
-│   ├── dashboard/          # Dashboard-specific components
-│   └── ui/                 # Primitive UI components
-├── lib/
-│   ├── auth.ts             # Better Auth server config
-│   ├── auth-client.ts      # Better Auth client config
-│   ├── constants.ts        # CATEGORIES, CHART_COLORS, ROUTES
-│   ├── format.ts           # formatCurrency, calculateSavingsRate
-│   └── utils.ts            # Tailwind cn() utility
-├── middleware.ts            # Edge auth guard for /dashboard/*
-├── providers/              # ThemeProvider, ToastProvider
-├── server/
-│   ├── ai/                 # Gemini client, router, prompts
-│   ├── actions/            # Server actions (ai, transactions)
-│   ├── db/                 # Prisma singleton
-│   └── repositories/       # TransactionRepository, BudgetRepository
-└── types/                  # Shared TypeScript interfaces
-```
-
-### Key Design Decisions
-
-**Repository Pattern**: All database operations go through typed repository classes (`TransactionRepository`, `BudgetRepository`). This decouples business logic from raw SQL and makes testing trivial.
-
-**AI Router with Fallback**: `generateWithFallback()` retries with exponential backoff across model versions. Gemini 2.5 Flash for speed, 2.5 Pro as fallback.
-
-**Retrieval-Augmented Generation**: The AI advisor fetches the user's 30-day summary + active budgets from the database and injects them into the Gemini prompt before every response. Every answer is grounded in real data.
-
-**User-Scoped Queries**: Every database query includes a `userId` filter. It's structurally impossible to access another user's data.
+- **Repository Pattern**: All DB interactions pass through typed repository classes (`TransactionRepository`, `BudgetRepository`). This insulates business logic from raw SQL and ORM changes.
+- **RAG Context Injection**: The AI Advisor fetches your latest 30-day summary + active budgets and invisibly injects them into the LLM prompt, ensuring the AI relies on *your* math, not hallucinations.
+- **Dynamic Vercel Trust**: The auth layer automatically syncs `trustedOrigins` with Vercel's dynamic preview URLs, preventing `403 Forbidden` errors across CI deployments.
 
 ---
 
-## Getting Started
+## ⚙️ Getting Started
+
+Follow these steps to set up Finora locally. *For deeper contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).*
 
 ### Prerequisites
-
 - Node.js 20+
 - pnpm 9+
-- PostgreSQL database (recommend [Neon](https://neon.tech) - free tier available)
-- Google AI API key from [aistudio.google.com](https://aistudio.google.com)
-
-### Setup
-
-```bash
-# 1. Clone the repository
 git clone https://github.com/yourusername/finora.git
 cd finora
 

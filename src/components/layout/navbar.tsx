@@ -37,26 +37,13 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="size-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl tracking-tighter group-hover:scale-105 transition-transform">
-            F
-          </div>
-          <span className="font-semibold text-xl tracking-tight text-foreground">
-            Finora
-          </span>
-        </Link>
+        <Logo showText={true} />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+          <Link href="/#features" className="hover:text-primary transition-colors">Features</Link>
+          <Link href="/#architecture" className="hover:text-primary transition-colors">Architecture</Link>
+          <Link href="/#tech-stack" className="hover:text-primary transition-colors">Tech Stack</Link>
         </nav>
 
         {/* Desktop Auth/CTAs */}
