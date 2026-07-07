@@ -140,9 +140,9 @@ export default function SignUpPage() {
             className="flex flex-col space-y-6"
           >
             <div className="flex flex-col items-center space-y-3 text-center mb-4">
-              <Link href="/" className="mb-2 hover:scale-105 transition-transform outline-none lg:hidden">
+              <div className="mb-2 hover:scale-105 transition-transform outline-none lg:hidden">
                 <Logo className="size-12" />
-              </Link>
+              </div>
               <h1 className="text-3xl font-bold tracking-tight">Create an account</h1>
               <p className="text-muted-foreground">
                 Enter your details below to create your account
