@@ -128,20 +128,16 @@ function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
-          aria-label="Finora home"
-        >
-        </Link>
+        <Logo />
 
         <nav
           className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground"
           aria-label="Main navigation"
         >
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-          <Link href="/how-it-works" className="hover:text-foreground transition-colors">Architecture</Link>
+          <a href="#how-it-works" className="hover:text-foreground transition-colors">How it works</a>
           <a href="#tech-stack" className="hover:text-foreground transition-colors">Tech Stack</a>
+          <a href="#ai-architecture" className="hover:text-foreground transition-colors">AI Engine</a>
           <a href="#testimonials" className="hover:text-foreground transition-colors">Testimonials</a>
         </nav>
 
@@ -360,7 +356,7 @@ function FeaturesSection() {
 
 function AISection() {
   return (
-    <section id="ai" className="w-full max-w-6xl mx-auto py-24 px-4 border-t border-border/50 scroll-mt-20">
+    <section id="ai-architecture" className="w-full max-w-6xl mx-auto py-24 px-4 border-t border-border/50 scroll-mt-20">
       <div className="grid md:grid-cols-2 gap-16 items-center">
         <div>
           <div className="inline-flex items-center rounded-full border border-primary/25 bg-primary/8 px-3 py-1 text-xs font-medium text-primary mb-6">
@@ -741,7 +737,6 @@ function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-border/50 text-sm text-muted-foreground">
           <div className="flex items-center gap-1.5">
-            <Logo className="size-4 rounded-md shadow-none" showText={false} />
             <span>© 2026 Finora. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-1.5 font-medium">Made with <span className="text-red-500 text-lg leading-none">❤️</span> in India.</div>
