@@ -54,9 +54,9 @@ export default function ForgotPasswordPage() {
       }
 
       setIsSubmitted(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || "An unexpected error occurred. Please try again.");
+      setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +144,7 @@ export default function ForgotPasswordPage() {
                   Reset password
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Enter your email address and we'll send you a link to reset your password.
+                  Enter your email address and we&apos;ll send you a link to reset your password.
                 </p>
               </div>
 
@@ -186,7 +186,7 @@ export default function ForgotPasswordPage() {
               <div className="space-y-2">
                 <h1 className="text-2xl font-bold tracking-tight">Check your email</h1>
                 <p className="text-muted-foreground max-w-[300px]">
-                  We've sent a password reset link to your email address. Please check your inbox and spam folder.
+                  We&apos;ve sent a password reset link to your email address. Please check your inbox and spam folder.
                 </p>
               </div>
               <Button asChild className="w-full" variant="outline">

@@ -29,7 +29,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * exponential backoff, and model fallbacks for rate limits/server errors.
  */
 export async function generateWithFallback(
-  prompt: string | any[],
+  prompt: string | unknown[],
   options: GenerationOptions = {}
 ): Promise<string> {
   const maxRetries = 3;
