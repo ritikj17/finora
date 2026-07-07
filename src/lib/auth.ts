@@ -9,6 +9,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
+    sendResetPassword: async ({ user, url }) => {
+      console.log(`\n\n=========================================\n`);
+      console.log(`[MOCK EMAIL] Password Reset Link for ${user.email}:`);
+      console.log(`${url}`);
+      console.log(`\n=========================================\n\n`);
+    },
   },
   trustedOrigins: [
     "http://localhost:3000",
@@ -21,7 +27,7 @@ export const auth = betterAuth({
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : [])
   ],
   session: {
-    expiresIn: 60 * 60 * 24 * 365 * 10, // 10 years
+    expiresIn: 60 * 60 * 24 * 365, // 1 year (Must be < 400 days for cookie limits)
     updateAge: 60 * 60 * 24, // Update session age every 1 day
   },
   user: {
