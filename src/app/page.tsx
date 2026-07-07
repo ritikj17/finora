@@ -133,8 +133,6 @@ function Navbar() {
           className="flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
           aria-label="Finora home"
         >
-          <Logo className="size-8" />
-          <span className="font-semibold text-lg tracking-tight">Finora</span>
         </Link>
 
         <nav
@@ -362,7 +360,7 @@ function FeaturesSection() {
 
 function AISection() {
   return (
-    <section className="w-full max-w-6xl mx-auto py-24 px-4 border-t border-border/50">
+    <section id="ai" className="w-full max-w-6xl mx-auto py-24 px-4 border-t border-border/50 scroll-mt-20">
       <div className="grid md:grid-cols-2 gap-16 items-center">
         <div>
           <div className="inline-flex items-center rounded-full border border-primary/25 bg-primary/8 px-3 py-1 text-xs font-medium text-primary mb-6">
@@ -578,7 +576,7 @@ const architectureSteps: ArchitectureStep[] = [
 
 function ArchitectureSection() {
   return (
-    <section id="architecture" className="w-full max-w-6xl mx-auto py-24 px-4 relative">
+    <section id="how-it-works" className="w-full max-w-6xl mx-auto py-24 px-4 relative">
       <motion.div 
         initial="initial"
         whileInView="animate"
@@ -587,7 +585,7 @@ function ArchitectureSection() {
         className="text-center mb-24"
       >
         <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-black tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-r from-foreground to-muted-foreground">
-          System Architecture
+          How it works
         </motion.h2>
         <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-2xl mx-auto font-medium">
           How Finora processes raw transaction matrices into structured financial intelligence, securely and reliably.
@@ -766,10 +764,10 @@ export default function LandingPage() {
         <HeroSection />
         <ProblemSection />
         <FeaturesSection />
-        <AISection />
-        <TechStackSection />
-        <TestimonialsSection />
         <ArchitectureSection />
+        <TechStackSection />
+        <AISection />
+        <TestimonialsSection />
         <CTASection />
       </main>
       <Footer />

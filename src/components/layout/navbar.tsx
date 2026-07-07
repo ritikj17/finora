@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 
 const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How it Works" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#about", label: "About Us" },
+  { href: "/#features", label: "Features" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#tech-stack", label: "Tech stack" },
+  { href: "/#ai", label: "AI Engine" },
+  { href: "/#testimonials", label: "Testimonials" },
 ];
 
 export function Navbar() {
@@ -19,7 +20,7 @@ export function Navbar() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -42,9 +43,11 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-          <Link href="/#features" className="hover:text-primary transition-colors">Features</Link>
-          <Link href="/#architecture" className="hover:text-primary transition-colors">Architecture</Link>
-          <Link href="/#tech-stack" className="hover:text-primary transition-colors">Tech Stack</Link>
+          {navLinks.map((link) => (
+            <Link key={link.label} href={link.href} className="hover:text-primary transition-colors">
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
         {/* Desktop Auth/CTAs */}
