@@ -170,13 +170,13 @@ function HeroSection() {
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 overflow-hidden">
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/10 blur-[120px] rounded-full" />
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-violet-500/8 blur-[100px] rounded-full" />
-        <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] bg-cyan-500/8 blur-[80px] rounded-full" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-175 bg-primary/10 blur-[120px] rounded-full" />
+        <div className="absolute top-1/4 right-1/4 w-100 h-100 bg-violet-500/8 blur-[100px] rounded-full" />
+        <div className="absolute bottom-1/4 left-1/4 w-75 h-75 bg-cyan-500/8 blur-[80px] rounded-full" />
       </div>
 
       {/* Grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.4)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.4)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.4)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.4)_1px,transparent_1px)] bg-size-[32px_32px] mask-[radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
 
       <motion.div
         className="relative z-10 flex flex-col items-center max-w-5xl mx-auto"
@@ -337,7 +337,7 @@ function FeaturesSection() {
             transition={{ delay: i * 0.06, duration: 0.4 }}
             className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
               i === 0
-                ? "bg-gradient-to-b from-primary/8 to-transparent border-primary/20 hover:shadow-primary/10"
+                ? "bg-linear-to-b from-primary/8 to-transparent border-primary/20 hover:shadow-primary/10"
                 : "bg-card border-border/60 hover:border-border"
             }`}
           >
@@ -398,7 +398,7 @@ function AISection() {
 
         {/* Fake chat preview */}
         <div className="rounded-2xl border border-border bg-card p-6 shadow-xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent pointer-events-none" />
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border relative">
             <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
@@ -522,7 +522,7 @@ function TestimonialsSection() {
 function CTASection() {
   return (
     <section className="w-full max-w-6xl mx-auto py-24 px-4 border-t border-border/50">
-      <div className="relative rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/8 via-transparent to-violet-500/8 p-12 text-center overflow-hidden">
+      <div className="relative rounded-3xl border border-primary/20 bg-linear-to-br from-primary/8 via-transparent to-violet-500/8 p-12 text-center overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-10%,hsl(var(--primary)/0.15),transparent)] pointer-events-none" />
         <div className="relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">

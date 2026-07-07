@@ -155,7 +155,7 @@
 
   /* Gradient text utility */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary via-violet-500 to-cyan-500 bg-clip-text text-transparent;
+    @apply bg-linear-to-r from-primary via-violet-500 to-cyan-500 bg-clip-text text-transparent;
   }
 
   /* Glassmorphism card */
