@@ -74,13 +74,9 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[AI Categorize Error]:", error);
+    console.error("[AI Categorize Error]:", message);
     return NextResponse.json(
-      { 
-        error: "Internal Server Error during categorization process.",
-        // Temporary debug info — remove after diagnosing
-        debug: message,
-      },
+      { error: "Internal Server Error during categorization process." },
       { status: 500 }
     );
   }
