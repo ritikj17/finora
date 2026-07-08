@@ -49,7 +49,7 @@ export async function generateWithFallback(
     : FALLBACK_MODELS_CLASSIFICATION;
     
   const baseDelay = 1000;
-  let lastError: any = null;
+  let lastError: unknown = null;
 
   for (let i = 0; i < modelsToTry.length; i++) {
     const modelName = modelsToTry[i];
