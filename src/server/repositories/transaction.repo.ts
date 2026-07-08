@@ -102,13 +102,16 @@ export const TransactionRepository = {
   },
 
   async batchUpdateCategories(userId: string, updates: { transactionId: string; category: string }[]): Promise<void> {
-    const updatePromises = updates.map((update) =>
-      db.transaction.updateMany({
-        where: { id: update.transactionId, userId: userId },
-        data: { category: update.category },
-      })
+    // Use Promise.all instead of db.$transaction to avoid the 5s interactive
+    // transaction timeout — category updates are independent so atomicity is not needed.
+    await Promise.all(
+      updates.map((update) =>
+        db.transaction.updateMany({
+          where: { id: update.transactionId, userId: userId },
+          data: { category: update.category },
+        })
+      )
     );
-    await db.$transaction(updatePromises);
   },
   
   async delete(transactionId: string, userId: string): Promise<Transaction> {
