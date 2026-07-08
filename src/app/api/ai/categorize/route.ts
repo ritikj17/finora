@@ -73,9 +73,14 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     console.error("[AI Categorize Error]:", error);
     return NextResponse.json(
-      { error: "Internal Server Error during categorization process." },
+      { 
+        error: "Internal Server Error during categorization process.",
+        // Temporary debug info — remove after diagnosing
+        debug: message,
+      },
       { status: 500 }
     );
   }
