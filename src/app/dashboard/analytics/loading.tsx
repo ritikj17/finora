@@ -26,8 +26,8 @@ export default function AnalyticsLoading() {
           <Skeleton className="h-6 w-[200px] mb-2" />
           <Skeleton className="h-4 w-[150px] mb-8" />
           <div className="flex items-end justify-between h-[300px] space-x-2">
-            {[...Array(12)].map((_, i) => (
-              <Skeleton key={i} className="w-full bg-primary/20" style={{ height: `${Math.max(20, Math.random() * 100)}%` }} />
+            {[25, 45, 30, 60, 80, 50, 75, 40, 90, 65, 35, 55].map((h, i) => (
+              <Skeleton key={i} className="w-full bg-primary/20" style={{ height: `${h}%` }} />
             ))}
           </div>
         </div>
