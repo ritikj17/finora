@@ -6,8 +6,10 @@ import { TransactionRepository } from "@/server/repositories/transaction.repo";
 import { rateLimit } from "@/server/api/rate-limit";
 
 export async function POST(req: NextRequest) {
+  let step = "auth";
   try {
-    // 1. Authenticate natively via Better Auth (No proxy fetches needed!)
+    // 1. Authenticate natively via Better Auth
+    step = "auth";
     const session = await auth.api.getSession({
       headers: req.headers,
     });
@@ -17,12 +19,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate Limit: 10 requests per minute for categorization
+    step = "rate-limit";
     const ip = req.headers.get("x-forwarded-for") ?? session.user.id;
     if (!rateLimit(ip, 10, 60000)) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
 
-    // 2. Parse the request body (expecting an array of transaction IDs)
+    // 2. Parse the request body
+    step = "parse-body";
     const body = await req.json();
     const { transactionIds } = body;
 
@@ -31,52 +35,61 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Fetch full transaction details from repository securely
+    step = "fetch-transactions";
     const transactions = await TransactionRepository.getByIds(session.user.id, transactionIds);
 
     if (transactions.length === 0) {
       return NextResponse.json({ error: "No valid transactions found." }, { status: 404 });
     }
 
-    // 4. Construct AI Payload (strip PII/unnecessary fields to reduce token usage)
+    // 4. Construct AI Payload
+    step = "build-payload";
     const aiPayload = transactions.map(t => ({
       transactionId: t.id,
       description: t.description,
       amount: t.amount,
       type: t.type,
-      date: t.date.toISOString().split('T')[0] // Only send YYYY-MM-DD
+      date: t.date.toISOString().split('T')[0]
     }));
 
     // 5. Invoke Gemini via Fallback Router
+    step = "ai-generate";
     const aiResponseText = await generateWithFallback(JSON.stringify(aiPayload), {
       taskType: "classification",
       systemInstruction: CATEGORIZATION_SYSTEM_PROMPT,
-      temperature: 0.0, // Force maximum determinism
+      temperature: 0.0,
     });
 
     // 6. Parse and validate JSON structure
+    step = "parse-ai-response";
     const cleanJSON = aiResponseText.replace(/```json/gi, '').replace(/```/g, '').trim();
     const parsedData = JSON.parse(cleanJSON);
-    
+
     if (!parsedData.categorizations || !Array.isArray(parsedData.categorizations)) {
-      throw new Error("AI returned an invalid schema structure.");
+      throw new Error(`AI returned invalid schema. Response was: ${aiResponseText.slice(0, 200)}`);
     }
 
     // 7. Batch Update the database securely
+    step = "db-update";
     await TransactionRepository.batchUpdateCategories(
-      session.user.id, 
+      session.user.id,
       parsedData.categorizations
     );
 
-    return NextResponse.json({ 
-      success: true, 
-      categorizedCount: parsedData.categorizations.length 
+    return NextResponse.json({
+      success: true,
+      categorizedCount: parsedData.categorizations.length
     });
 
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[AI Categorize Error]:", message);
+    console.error(`[AI Categorize Error] at step '${step}':`, message);
     return NextResponse.json(
-      { error: "Internal Server Error during categorization process." },
+      {
+        error: "Internal Server Error during categorization process.",
+        step,  // tells us exactly which step failed
+        debug: message,
+      },
       { status: 500 }
     );
   }
