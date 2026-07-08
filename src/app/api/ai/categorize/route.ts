@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { generateWithFallback } from "@/server/ai/router";
 import { CATEGORIZATION_SYSTEM_PROMPT } from "@/server/ai/prompts/categorization";
 import { TransactionRepository } from "@/server/repositories/transaction.repo";
-
 import { rateLimit } from "@/server/api/rate-limit";
 
 export async function POST(req: NextRequest) {
@@ -19,7 +17,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate Limit: 10 requests per minute for categorization
-    const ip = (await headers()).get("x-forwarded-for") ?? "127.0.0.1";
+    const ip = req.headers.get("x-forwarded-for") ?? session.user.id;
     if (!rateLimit(ip, 10, 60000)) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }

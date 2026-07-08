@@ -1,12 +1,5 @@
 import { GoogleGenerativeAI, Part } from '@google/generative-ai';
 
-// Initialize the singleton strictly on the server
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY is not defined in the environment variables.');
-}
-
-const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 const FALLBACK_MODELS_CLASSIFICATION = [
   'gemini-1.5-flash',
   'gemini-2.0-flash-exp',
@@ -44,8 +37,14 @@ export async function generateWithFallback(
   prompt: string | (string | Part)[],
   options: GenerationOptions = {}
 ): Promise<string> {
-  const modelsToTry = options.taskType === 'reasoning' 
-    ? FALLBACK_MODELS_REASONING 
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('GEMINI_API_KEY is not set in environment variables.');
+  }
+  const ai = new GoogleGenerativeAI(apiKey);
+
+  const modelsToTry = options.taskType === 'reasoning'
+    ? FALLBACK_MODELS_REASONING
     : FALLBACK_MODELS_CLASSIFICATION;
     
   const baseDelay = 1000;
