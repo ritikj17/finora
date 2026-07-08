@@ -8,8 +8,8 @@ if (!process.env.GEMINI_API_KEY) {
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const MODELS = {
-  CLASSIFICATION: 'gemini-2.5-flash',
-  REASONING: 'gemini-2.5-pro',
+  CLASSIFICATION: 'gemini-1.5-flash',
+  REASONING: 'gemini-1.5-pro',
   FALLBACK: 'gemini-1.5-flash',
 } as const;
 
