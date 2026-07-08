@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     // 1. Authenticate natively via Better Auth (No proxy fetches needed!)
     const session = await auth.api.getSession({
-      headers: await headers(),
+      headers: req.headers,
     });
 
     if (!session || !session.user) {
@@ -57,7 +57,8 @@ export async function POST(req: NextRequest) {
     });
 
     // 6. Parse and validate JSON structure
-    const parsedData = JSON.parse(aiResponseText);
+    const cleanJSON = aiResponseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const parsedData = JSON.parse(cleanJSON);
     
     if (!parsedData.categorizations || !Array.isArray(parsedData.categorizations)) {
       throw new Error("AI returned an invalid schema structure.");
