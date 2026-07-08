@@ -69,7 +69,6 @@ export async function POST(req: NextRequest) {
       taskType: "reasoning",
       systemInstruction: ADVISOR_SYSTEM_PROMPT,
       temperature: 0.7, // Slightly higher for conversational fluidity
-      responseMimeType: "text/plain"
     });
 
     return NextResponse.json({ 

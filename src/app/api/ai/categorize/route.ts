@@ -51,7 +51,6 @@ export async function POST(req: NextRequest) {
       taskType: "classification",
       systemInstruction: CATEGORIZATION_SYSTEM_PROMPT,
       temperature: 0.0, // Force maximum determinism
-      responseMimeType: "application/json"
     });
 
     // 6. Parse and validate JSON structure

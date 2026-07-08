@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { generateWithFallback } from "@/server/ai/router";
 import { rateLimit } from "@/server/api/rate-limit";
@@ -25,7 +24,7 @@ RULES:
 export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({
-      headers: await headers(),
+      headers: req.headers,
     });
 
     if (!session || !session.user) {
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate Limit: 5 PDF extractions per minute
-    const ip = (await headers()).get("x-forwarded-for") ?? "127.0.0.1";
+    const ip = req.headers.get("x-forwarded-for") ?? session.user.id;
     if (!rateLimit(ip, 5, 60000)) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
@@ -59,11 +58,12 @@ export async function POST(req: NextRequest) {
       taskType: "classification",
       systemInstruction: PDF_EXTRACTION_PROMPT,
       temperature: 0.0,
-      responseMimeType: "application/json"
     });
 
     try {
-      const transactions = JSON.parse(aiResponseText);
+      // Strip any markdown fencing the model may have added
+      const cleanJSON = aiResponseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const transactions = JSON.parse(cleanJSON);
       return NextResponse.json({ success: true, transactions });
     } catch (parseError) {
       console.error("[PDF Extraction Parse Error]:", parseError);

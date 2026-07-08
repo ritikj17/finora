@@ -51,7 +51,6 @@ export async function categorizeTransactions() {
       {
         systemInstruction: CATEGORIZATION_SYSTEM_PROMPT,
         temperature: 0.0, // Maximum determinism for categorization
-        responseMimeType: "application/json",
       }
     );
 
