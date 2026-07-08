@@ -56,14 +56,9 @@ export function Sidebar() {
       aria-label="Main navigation"
     >
       {/* Logo */}
-      <Link
-        href="/"
-        className="flex items-center gap-2.5 px-3 mb-8 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg hover:opacity-80 transition-opacity"
-        aria-label="Finora home"
-      >
-        <Logo className="size-7" />
-        <span className="font-semibold text-lg tracking-tight">Finora</span>
-      </Link>
+      <div className="px-3 mb-8">
+        <Logo className="size-7" showText={true} />
+      </div>
 
       {/* Navigation */}
       <nav className="flex flex-col gap-0.5 flex-1" aria-label="Dashboard navigation">
