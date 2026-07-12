@@ -13,18 +13,29 @@ export function Logo({ className, showText = true }: { className?: string; showT
     <Link href={href} className="flex items-center gap-2 group">
       <div 
         className={cn(
-          "relative flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-white/5 group-hover:border-white/40 group-hover:ring-2 group-hover:ring-indigo-400/50 group-hover:shadow-[0_0_20px_rgba(129,140,248,0.4)] transition-all duration-300", 
+          "relative flex items-center justify-center rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-white/5 group-hover:border-white/40 group-hover:ring-2 group-hover:ring-indigo-400/50 group-hover:shadow-[0_0_20px_rgba(129,140,248,0.4)] transition-all duration-300", 
           className || "w-8 h-8"
         )}
+        style={{ background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)" }}
       >
-        <svg 
-          viewBox="0 0 24 24" 
-          className="w-1/2 h-1/2 text-white" 
-          fill="none" 
+        {/* Bold italic "F" matching the OG image logo */}
+        <svg
+          viewBox="0 0 24 24"
+          className="w-[58%] h-[58%]"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M4 14L14 4L20 10L10 20L4 14Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M14 4V14H4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <text
+            x="2"
+            y="19"
+            fontFamily="Arial, Helvetica, sans-serif"
+            fontSize="20"
+            fontWeight="900"
+            fontStyle="italic"
+            fill="white"
+          >
+            F
+          </text>
         </svg>
       </div>
       {showText && <span className="font-bold text-xl tracking-tight text-foreground">Finora</span>}
